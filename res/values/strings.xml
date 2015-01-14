@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, LoginActivity!</string>
+    <string name="app_name">کاهش وزن</string>
+    <string name="female">زن</string>
+    <string name="male">مرد</string>
+    <string name="weight">وزن</string>
+    <string name="height">قد</string>
+    <string name="birthDate">تاریخ تولد</string>
+    <string name="save">ذخیره</string>
+    <string name="sex">جنسیت</string>
+    <string name="title_activity_stat_screen">StatScreenActivity</string>
+    <string name="skip_button">skip</string>
+    <string name="dont_show_button">don\'t show</string>
+    <string name="activity_main">MainActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+    <string name="fragment_status">امروز</string>
+    <string name="fragment_log">تقویم</string>
+    <string name="fragment_foods">لیست غذاها</string>
+    <string name="fragment_workout">تمرین</string>
+    <string name="std_unit">گرم</string>
+    <string name="activity_level">میزان فعالیت روزانه خود را مشخص کنید.</string>
+    <string name="today_advice"><u>توصیه های امروز</u></string>
+	<string name="activity_daily_log">گزارش روزانه</string>
+    <string-array name="meals_array">
+        <item>میان وعده اول</item>
+        <item>صبحانه</item>
+        <item>ناهار</item>
+        <item>میان وعده دوم</item>
+        <item>شام</item>
+        <item>میان وعده سوم</item>
+    </string-array>
+    <string-array name="main_tabs_array">
+        <item>امروز</item>
+        <item>غذاها</item>
+        <item>تمرین</item>
+        <item>تقویم</item>
+    </string-array>
+
+</resources>

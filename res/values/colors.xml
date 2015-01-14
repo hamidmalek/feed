@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="fragment_background">#F2F2F2</color>
+    <color name="black">#000</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="app_background">#29AAE1</color>
+    <color name="light_red">#ba0305</color>
+    <color name="dark_red">#9d0c0f</color>
+    <color name="text_tab_selected">#5d5d5d</color>
+    <color name="text_tab_unselected">#838183</color>
+    <color name="action_bar_background"> #29ABE2</color>
+    <color name="tab_text_color"> #29ABE2</color>
+    <color name="tab_indicatora">#A0CFE2</color>
+    <color name="tab_indicator">#FAF</color>
+    <color name="tabs_background">#FFF</color>
+    <color name="border">#B0B0B0</color>
+    
+    <color name="green">#8FCC85</color>
+    <color name="blue">#ff33b5e5</color>
+    <color name="white">#ffffff</color>
+    
+        <color name="caldroid_white">#FFFFFF</color>
+    <color name="caldroid_black">#000000</color>
+    <color name="caldroid_transparent">#00000000</color>
+    <!-- For settings framework -->
+    <color name="caldroid_lighter_gray">#eee</color>
+    <color name="caldroid_gray">#CCC</color>
+    <color name="caldroid_darker_gray">#eee</color>
+    <!-- A light Holo shade of blue -->
+    <color name="caldroid_holo_blue_light">#ff33b5e5</color>
+    <!-- A dark Holo shade of blue -->
+    <color name="caldroid_holo_blue_dark">#ff0099cc</color>
+    <!-- A really bright Holo shade of blue -->
+    <color name="caldroid_sky_blue">#FFA3E8F7</color>
+
+</resources>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:persianDatePicker="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/login_scroll"
+    android:fillViewport="true"
+    android:background="#000" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#cccccc" >
+
+        <!-- Header  Starts -->
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@layout/header_gradient"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip" >
+
+            <!-- Logo Start -->
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:src="@drawable/logo" />
+            <!-- Logo Ends -->
+        </LinearLayout>
+        <!-- Header Ends -->
+        <!-- Footer Start -->
+
+        <LinearLayout
+            android:id="@+id/footer"
+            android:layout_width="fill_parent"
+            android:layout_height="45dip"
+            android:layout_alignParentBottom="true"
+            android:background="@layout/footer_repeat"
+            android:orientation="horizontal" >
+        </LinearLayout>
+        <!-- Footer Ends -->
+
+
+        <!-- Register Form -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
+            <!-- Height -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/height"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/height"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="5dip"
+                android:inputType="number"
+                android:singleLine="true" />
+            <!-- Weight -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/weight"
+                android:textColor="#372c24" />
+
+            <EditText
+                android:id="@+id/weight"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:inputType="number"
+                android:singleLine="true" />
+
+            <!-- Sex Radio button -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sex"
+                android:textColor="#372c24" />
+
+            <RadioGroup
+                android:id="@+id/radioSex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/radioMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/male"
+                    android:textColor="#000" />
+
+                <RadioButton
+                    android:id="@+id/radioFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/female"
+                    android:textColor="#007" />
+            </RadioGroup>
+            <!-- Birth Date -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/birthDate"
+                android:textColor="#372c24" />
+
+            <LinearLayout
+                android:id="@+id/linlay2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal" >
+
+                <net.simonvt.numberpicker.NumberPicker
+                    android:id="@+id/npYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                </net.simonvt.numberpicker.NumberPicker>
+
+                <net.simonvt.numberpicker.NumberPicker
+                    android:id="@+id/npMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" >
+                </net.simonvt.numberpicker.NumberPicker>
+
+                <net.simonvt.numberpicker.NumberPicker
+                    android:id="@+id/npDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                </net.simonvt.numberpicker.NumberPicker>
+            </LinearLayout>
+
+            <!-- Submit button -->
+
+            <Button
+                android:id="@+id/btnsave"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dip"
+                android:text="@string/save" />
+            <!-- Link to Registration Screen -->
+
+            
+        </LinearLayout>
+        <!-- Register Form Ends -->
+
+    </RelativeLayout>
+
+</ScrollView>
