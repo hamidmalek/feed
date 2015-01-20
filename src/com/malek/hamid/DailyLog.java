@@ -1,5 +1,11 @@
 package com.malek.hamid;
 
+/**
+ * 
+ * this class is a object form of table dailyNutritionLog
+ * @author hamid_
+ *
+ */
 
 public class DailyLog {
 	

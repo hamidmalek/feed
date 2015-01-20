@@ -29,9 +29,8 @@ public class LoginActivity extends Activity {
 	private NumberPicker npYear;
 
 	// -- Form Elements --------------------------
-	private EditText weight;
-	private EditText height;
-	private RadioGroup sex;
+	private NumberPicker weight;
+	private NumberPicker height;
 	private Button submit;
 	private ScrollView scroll;
 	private DatabaseHandler db;
@@ -93,18 +92,36 @@ public class LoginActivity extends Activity {
 		npDay.setMinValue(1);
 		npDay.setMaxValue(31);
 
-		npYear.setValue(iranianYear);
-		npMonth.setValue(iranianMonth);
-		npDay.setValue(iranianDay);
-
+		npYear.setValue(1370);
+		npMonth.setValue(10);
+		npDay.setValue(22);
+		
+		npYear.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+		npMonth.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+		npDay.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+		
 		// -- Calendar --------------------------- END
 
 		// -- Form Elements Initialization ---------------
-		scroll = (ScrollView) findViewById(R.id.login_scroll);
-		weight = (EditText) findViewById(R.id.weight);
-		height = (EditText) findViewById(R.id.height);
-		sex = (RadioGroup) findViewById(R.id.radioSex);
-
+//		scroll = (ScrollView) findViewById(R.id.login_scroll);
+		weight = (NumberPicker) findViewById(R.id.weight);
+		height = (NumberPicker) findViewById(R.id.height);
+		
+		//////
+		height.setMaxValue(250);
+		height.setMinValue(120);
+		height.setValue(160);
+		height.setWrapSelectorWheel(false);
+		height.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+		
+		weight.setMaxValue(160);
+		weight.setMinValue(40);
+		weight.setValue(70);
+		weight.setWrapSelectorWheel(false);
+		weight.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+		////////
+		
+		
 		submit = (Button) findViewById(R.id.btnsave);
 
 		submit.setOnClickListener(new OnClickListener() {
@@ -113,43 +130,43 @@ public class LoginActivity extends Activity {
 
 				// checking weight field correctness
 				int userWeight = 0;
-				if (weight.getText().toString().matches("")) {
-					Toast.makeText(getApplicationContext(), "Weight is empty",
-							Toast.LENGTH_LONG).show();
-					weight.setBackgroundColor(Color.rgb(240, 100, 100));
-					scroll.scrollTo(0, weight.getTop());
-					return;
-				} else
-					userWeight = Integer.parseInt(weight.getText().toString());
+//				if (weight.getText().toString().matches("")) {
+//					Toast.makeText(getApplicationContext(), "Weight is empty",
+//							Toast.LENGTH_LONG).show();
+//					weight.setBackgroundColor(Color.rgb(240, 100, 100));
+//					scroll.scrollTo(0, weight.getTop());
+//					return;
+//				} else
+//					userWeight = Integer.parseInt(weight.getText().toString());
 
 				// checking height field correctness
 				int userHeight = 0;
-				if (height.getText().toString().matches("")) {
-					Toast.makeText(getApplicationContext(), "Height is empty",
-							Toast.LENGTH_LONG).show();
-					height.setBackgroundColor(Color.rgb(240, 100, 100));
-					scroll.scrollTo(0, height.getTop());
-					return;
-				} else
-					userHeight = Integer.parseInt(height.getText().toString());
+//				if (height.getText().toString().matches("")) {
+//					Toast.makeText(getApplicationContext(), "Height is empty",
+//							Toast.LENGTH_LONG).show();
+//					height.setBackgroundColor(Color.rgb(240, 100, 100));
+//					scroll.scrollTo(0, height.getTop());
+//					return;
+//				} else
+//					userHeight = Integer.parseInt(height.getText().toString());
 
 				// checking sex radio correctness
 				int userSex = 0;
-				if (!(sex.getCheckedRadioButtonId() == -1)) {
-					int selectedId = sex.getCheckedRadioButtonId();
-					RadioButton radioSex = (RadioButton) findViewById(selectedId);
-					if (radioSex.getText() == getResources().getString(
-							R.string.female))
-						userSex = 1;
-					else
-						userSex = 0;
-				} else {
-					Toast.makeText(getApplicationContext(),
-							"You must select a sex", Toast.LENGTH_LONG).show();
-					sex.setBackgroundColor(Color.rgb(240, 100, 100));
-					scroll.scrollTo(0, sex.getTop());
-					return;
-				}
+//				if (!(sex.getCheckedRadioButtonId() == -1)) {
+//					int selectedId = sex.getCheckedRadioButtonId();
+//					RadioButton radioSex = (RadioButton) findViewById(selectedId);
+//					if (radioSex.getText() == getResources().getString(
+//							R.string.female))
+//						userSex = 1;
+//					else
+//						userSex = 0;
+//				} else {
+//					Toast.makeText(getApplicationContext(),
+//							"You must select a sex", Toast.LENGTH_LONG).show();
+//					sex.setBackgroundColor(Color.rgb(240, 100, 100));
+//					scroll.scrollTo(0, sex.getTop());
+//					return;
+//				}
 				String userBD = createBDString(npYear, npMonth, npDay);
 				// TODO
 				

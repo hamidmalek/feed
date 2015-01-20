@@ -14,13 +14,16 @@ import android.widget.TextView;
 public class StatScreenActivity extends Activity {
 	
 	TextView stat;
+	Button skipButton;
+	Button dontShow;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_stat_screen);
 		
-		Button skipButton = (Button) findViewById(R.id.skip_button);
+		skipButton = (Button) findViewById(R.id.skip_button);
+		dontShow = (Button) findViewById(R.id.dont_show_button);
 		stat = (TextView) findViewById(R.id.fullscreen_content);
 		final Person user = getIntent().getParcelableExtra("user");
 		stat.setText(user.toString());
@@ -32,6 +35,17 @@ public class StatScreenActivity extends Activity {
 				intent.putExtra("user", user);
 				startActivity(intent);
 				finish();
+			}
+		});
+		
+		dontShow.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent intent = new Intent(getBaseContext(), GoalActivity.class);
+				intent.putExtra("user", user);
+				startActivity(intent);
+				finish();
+				
 			}
 		});
 	}

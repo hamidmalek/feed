@@ -9,7 +9,7 @@
     <!-- Name of the Food -->
 
     <TextView
-        android:id="@+id/food_name"
+        android:id="@+id/food_name_in_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

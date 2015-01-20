@@ -46,7 +46,8 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 	private static final String KEY_BIRTHDATE = "BirthDate";
 	private static final String KEY_FULFILLED = "Fulfilled";
 	private static final String KEY_USER_ACTIVITY_LEVEL = "ActivityLevelId";
-
+	private static final String KEY_USER_GOAL_WEIGHT = "GoalWeight";
+	private static final String KEY_USER_GOAL_DEADLINE = "GoalDeadline";
 	// user nutrition log table columns names
 	private static final String KEY_LOG_TABLE_FOOD_ID = "FoodId";
 	private static final String KEY_DATE_ADDED = "DateAdded";
@@ -210,7 +211,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 	public void insertFoodinUserLog(int foodId, int size, String dateAdded,
 			String logDate, boolean isStd, int mealId) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		
+
 		int isStdtemp = 0;
 		if (isStd)
 			isStdtemp = 1;
@@ -233,22 +234,22 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 			energy = food.getCalorieUnit() * size;
 			protein = food.getUnitProtein() * size;
 		}
+		System.out.println("logDate" + logDate);
 		if (getDayLog(logDate).getEnergy() == -1) {
 			System.out.println("HERE");
-			query = "INSERT INTO " + TABLE_DAILY_LOG + "(" + KEY_DAILY_LOG_DATE + ","
-					+ KEY_DAILY_ENERGY + "," + KEY_DAILY_PROTEIN + ") values ("
-					+ "'" + dateAdded + "'," + "'" + energy + "'," + "'"
-					+ protein + "');";
+			query = "INSERT INTO " + TABLE_DAILY_LOG + "(" + KEY_DAILY_LOG_DATE
+					+ "," + KEY_DAILY_ENERGY + "," + KEY_DAILY_PROTEIN
+					+ ") values (" + "'" + dateAdded + "'," + "'" + energy
+					+ "'," + "'" + protein + "');";
 		} else {
 			System.out.println("THERE");
 			DailyLog dayLog = getDayLog(logDate);
-			query ="UPDATE " + TABLE_DAILY_LOG +
-					" SET " + KEY_DAILY_ENERGY +"=" +(energy+dayLog.getEnergy()) +"," +
-					KEY_DAILY_PROTEIN +"="+ (protein+dayLog.getProtein()) +
-					" WHERE " +KEY_DAILY_LOG_DATE +"=" +logDate +";"
-					;
-			System.out.println("P:"+dayLog.getProtein());
-			System.out.println("E:"+dayLog.getEnergy());
+			query = "UPDATE " + TABLE_DAILY_LOG + " SET " + KEY_DAILY_ENERGY
+					+ "=" + (energy + dayLog.getEnergy()) + ","
+					+ KEY_DAILY_PROTEIN + "=" + (protein + dayLog.getProtein())
+					+ " WHERE " + KEY_DAILY_LOG_DATE + "=" + logDate + ";";
+			System.out.println("P:" + dayLog.getProtein());
+			System.out.println("E:" + dayLog.getEnergy());
 		}
 		db = this.getWritableDatabase();
 		db.execSQL(query);
@@ -416,8 +417,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 	public ArrayList<Log> getUserNutLog(String date) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ArrayList<Log> nutritionLog = new ArrayList<Log>();
-		String query = "SELECT * FROM " + TABLE_NUTRITION_LOG 
-				+ " WHERE "
+		String query = "SELECT * FROM " + TABLE_NUTRITION_LOG + " WHERE "
 				+ KEY_LOG_DATE + "= '" + date + "'";
 		Cursor c = db.rawQuery(query, null);
 		if (c.getCount() != 0) {
@@ -436,7 +436,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 				nutritionLog.add(new Log(id, dateAdded, dateServed, size,
 						isStd, foodId, mealId));
 			} while (c.moveToNext());
-		}else{
+		} else {
 		}
 		c.close();
 		db.close();
@@ -492,6 +492,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 			int day = Integer.parseInt(logDate.split("/")[2]);
 			d = new DailyLog(day, energy, protein);
 		} else {
+			System.out.println(date);
 			d = new DailyLog(Integer.parseInt(date.split("/")[2]), -1, -1);
 		}
 		c.close();

@@ -56,10 +56,13 @@ public class DailyFoodsAdapter extends BaseAdapter {
 		TextView foodUnit = (TextView) vi.findViewById(R.id.food_unit); // food unit
 		
 		Log log = data.get(position);
-
-		foodName.setText(db.getFood(log.getFoodId()).getName());
+		Food food = db.getFood(log.getFoodId());
+		foodName.setText(food.getName());
 		foodSize.setText(log.getSize()+"");
-		foodUnit.setText("dddd");
+		if(!log.isStd())
+			foodUnit.setText(FoodsFragment.foodUnits.get(food.getUnit()));
+		else
+			foodUnit.setText(vi.getResources().getString( R.string.std_unit));
 		return vi;
 	}
 

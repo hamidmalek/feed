@@ -28,7 +28,19 @@
     <string name="std_unit">گرم</string>
     <string name="activity_level">میزان فعالیت روزانه خود را مشخص کنید.</string>
     <string name="today_advice"><u>توصیه های امروز</u></string>
-	<string name="activity_daily_log">گزارش روزانه</string>
+    <string name="activity_daily_log">گزارش روزانه</string>
+	
+    <string name="centimeter">سانتی‌متر</string>
+    <string name="kilogram">کیلوگرم</string>
+    <string name="you_want">شما می‌خواهید</string>
+    <string name="text_2">به میزان</string>
+    <string name="text_3">طی مدت </string>
+    <string name="text_4">شوید. </string>
+    
+    
+    <string name="lady">خانم</string>
+    <string name="gentle">آقا</string>
+    
     <string-array name="meals_array">
         <item>میان وعده اول</item>
         <item>صبحانه</item>
@@ -42,6 +54,23 @@
         <item>غذاها</item>
         <item>تمرین</item>
         <item>تقویم</item>
+    </string-array>
+
+    <!-- Activity Levels -->
+    <string name="very_low">very low</string>
+    <string name="low">low</string>
+    <string name="medium">medium</string>
+    <string name="high">high</string>
+    <string name="very_high">ver high</string>
+
+    <!-- goal activity spinners entries -->
+    <string-array name="weight_policy">
+        <item>لاغر</item>
+        <item>چاق</item>
+    </string-array>
+    <string-array name="time_scale">
+        <item>هفته</item>
+        <item>ماه</item>
     </string-array>
 
 </resources>

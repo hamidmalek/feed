@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/caldroid_white"
+    android:background="@color/fragment_background"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/calendar_title_view"
         android:layout_width="match_parent"
+        android:paddingBottom="5dip"
         android:layout_height="wrap_content" >
 
         <Button
@@ -21,11 +22,14 @@
             android:id="@+id/calendar_month_year_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="5dip"
             android:layout_marginTop="6dp"
+            android:textColor="@color/black"
             android:layout_toLeftOf="@+id/calendar_right_arrow"
             android:layout_toRightOf="@+id/calendar_left_arrow"
             android:gravity="center_horizontal"
             android:textIsSelectable="true"
+            android:layout_marginBottom="10dip"
             android:textSize="22sp" />
 
         <Button

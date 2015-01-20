@@ -1,170 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:persianDatePicker="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:id="@+id/login_scroll"
-    android:fillViewport="true"
-    android:background="#000" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    android:orientation="vertical"
+    android:weightSum="9" >
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#cccccc" >
+    <!-- Register Form -->
 
-        <!-- Header  Starts -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:padding="10dip"
+        android:weightSum="11" >
 
-        <LinearLayout
-            android:id="@+id/header"
-            android:layout_width="fill_parent"
+        <!-- Weight -->
+
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@layout/header_gradient"
-            android:paddingBottom="5dip"
-            android:paddingTop="5dip" >
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/kilogram"
+            android:textColor="#372c24"
+            android:textSize="13sp" />
 
-            <!-- Logo Start -->
+        <net.simonvt.numberpicker.NumberPicker
+            android:id="@+id/weight"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+        </net.simonvt.numberpicker.NumberPicker>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:src="@drawable/logo" />
-            <!-- Logo Ends -->
-        </LinearLayout>
-        <!-- Header Ends -->
-        <!-- Footer Start -->
-
-        <LinearLayout
-            android:id="@+id/footer"
-            android:layout_width="fill_parent"
-            android:layout_height="45dip"
-            android:layout_alignParentBottom="true"
-            android:background="@layout/footer_repeat"
-            android:orientation="horizontal" >
-        </LinearLayout>
-        <!-- Footer Ends -->
-
-
-        <!-- Register Form -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/header"
-            android:orientation="vertical"
-            android:padding="10dip" >
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/weight"
+            android:textColor="#372c24"
+            android:textSize="15sp" />
 
-            <!-- Height -->
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/height"
-                android:textColor="@color/black" />
-
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        <!-- Height -->
+        <!--
             <EditText
                 android:id="@+id/height"
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
                 android:layout_marginTop="5dip"
+                android:layout_weight="2"
                 android:inputType="number"
                 android:singleLine="true" />
-            <!-- Weight -->
+			<NumberPicker 
+			    android:id="@+id/height"
+                android:layout_width="0dp"
+			    android:layout_weight="2"
+			    
+                android:layout_height="wrap_content" 
+			    />
+        -->
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/weight"
-                android:textColor="#372c24" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/centimeter"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
 
-            <EditText
-                android:id="@+id/weight"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"
-                android:inputType="number"
-                android:singleLine="true" />
+        <net.simonvt.numberpicker.NumberPicker
+            android:id="@+id/height"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+        </net.simonvt.numberpicker.NumberPicker>
 
-            <!-- Sex Radio button -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/height"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sex"
-                android:textColor="#372c24" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:padding="10dip"
+        android:weightSum="9" >
 
-            <RadioGroup
-                android:id="@+id/radioSex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
-                <RadioButton
-                    android:id="@+id/radioMale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/male"
-                    android:textColor="#000" />
+        <net.simonvt.numberpicker.NumberPicker
+            android:id="@+id/npYear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" >
+        </net.simonvt.numberpicker.NumberPicker>
 
-                <RadioButton
-                    android:id="@+id/radioFemale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/female"
-                    android:textColor="#007" />
-            </RadioGroup>
-            <!-- Birth Date -->
+        <net.simonvt.numberpicker.NumberPicker
+            android:id="@+id/npMonth"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="2" >
+        </net.simonvt.numberpicker.NumberPicker>
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/birthDate"
-                android:textColor="#372c24" />
+        <net.simonvt.numberpicker.NumberPicker
+            android:id="@+id/npDay"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+        </net.simonvt.numberpicker.NumberPicker>
 
-            <LinearLayout
-                android:id="@+id/linlay2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal" >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="@string/birthDate"
+            android:textColor="#372c24" />
+    </LinearLayout>
 
-                <net.simonvt.numberpicker.NumberPicker
-                    android:id="@+id/npYear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-                </net.simonvt.numberpicker.NumberPicker>
+    <!-- Sex Radio button -->
 
-                <net.simonvt.numberpicker.NumberPicker
-                    android:id="@+id/npMonth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp" >
-                </net.simonvt.numberpicker.NumberPicker>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:paddingTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="horizontal"
+        android:weightSum="9" >
 
-                <net.simonvt.numberpicker.NumberPicker
-                    android:id="@+id/npDay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-                </net.simonvt.numberpicker.NumberPicker>
-            </LinearLayout>
+        <ImageView
+            android:id="@+id/man_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:src="@drawable/activity_level_high" />
 
-            <!-- Submit button -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/lady"
+            android:textColor="#372c24" />
 
-            <Button
-                android:id="@+id/btnsave"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dip"
-                android:text="@string/save" />
-            <!-- Link to Registration Screen -->
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3" />
 
-            
-        </LinearLayout>
-        <!-- Register Form Ends -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/gentle"
+            android:textColor="#372c24" />
 
-    </RelativeLayout>
+        <ImageView
+            android:id="@+id/woman_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:src="@drawable/activity_level_low" />
 
-</ScrollView>
+        <!-- Birth Date -->
+
+    </LinearLayout>
+    <!-- Submit button -->
+
+    <Button
+        android:id="@+id/btnsave"
+        android:layout_width="150dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dip"
+        android:layout_weight="1"
+        android:text="@string/save" />
+    <!-- Link to Registration Screen -->
+
+</LinearLayout>

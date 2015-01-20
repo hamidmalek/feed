@@ -5,27 +5,7 @@
     android:background="@android:color/white"
     android:orientation="horizontal"
     android:padding="5dip"
-    android:weightSum="6" >
-
-    <!-- Name of the Food -->
-
-    <TextView
-        android:id="@+id/food_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:textColor="#040404"
-        android:textStyle="bold" />
-
-    <!-- Amount of the food -->
-
-    <TextView
-        android:id="@+id/food_size"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dip"
-        android:layout_weight="1"
-        android:textColor="#343434" />
+    android:weightSum="5" >
 
     <!-- Unit of Food -->
 
@@ -35,6 +15,30 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="1dip"
         android:layout_weight="1"
+        android:text="@string/std_unit"
+        android:gravity="center"
         android:textColor="#343434" />
+
+    <!-- Amount of the food -->
+
+    <TextView
+        android:id="@+id/food_size"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dip"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="#343434" />
+
+    <!-- Name of the Food -->
+
+    <TextView
+        android:id="@+id/food_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:paddingRight="10dip"
+        android:textColor="#040404"
+        android:textStyle="bold" />
 
 </LinearLayout>

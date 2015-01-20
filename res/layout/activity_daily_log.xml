@@ -43,7 +43,7 @@
             android:background="@color/border" />
 
         <ImageButton
-            android:id="@+id/addFood"
+            android:id="@+id/add_food_in_log"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"

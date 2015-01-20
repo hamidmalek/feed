@@ -32,42 +32,49 @@
         android:weightSum="2" >
 
         <TextView
-            android:id="@+id/unit_text1"
+            android:id="@+id/unit_no_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
+            android:text="@string/std_unit"
+            android:visibility="gone" />
+
+        <RadioGroup
+            android:id="@+id/radio_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:gravity="left"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <RadioButton
+                android:id="@+id/radio_std_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/std_unit"
+                android:textColor="#000" />
+
+            <RadioButton
+                android:id="@+id/radio_sec_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#007" />
+        </RadioGroup>
 
         <EditText
-            android:id="@+id/unit_edit1"
-            android:layout_width="100dp"
+            android:id="@+id/unit_size_edit"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="7dp"
             android:layout_weight="1"
             android:inputType="number" />
     </LinearLayout>
 
-    <LinearLayout
+    <Spinner
+        android:id="@+id/meal_id"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2" >
-
-        <TextView
-            android:id="@+id/unit_text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
-
-        <EditText
-            android:id="@+id/unit_edit2"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="7dp"
-            android:layout_weight="1"
-            android:inputType="number" />
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/insert_food_to_log"

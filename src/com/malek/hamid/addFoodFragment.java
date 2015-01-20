@@ -2,7 +2,6 @@ package com.malek.hamid;
 
 import java.util.ArrayList;
 
-import android.R.anim;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.SparseArray;
@@ -21,15 +20,32 @@ import android.widget.Toast;
 
 import com.malek.hamid.handlers.Group;
 
+/**
+ * this class is a dialog fragment that uses when user wants to save a food in
+ * the log. it has functions that must called before showing this fragment to
+ * user. you must set the date that log should saved in it and also the food
+ * that should saved; use the setDate and setFood for these.
+ * 
+ * @author hamid_
+ * 
+ */
 public class addFoodFragment extends DialogFragment {
 
 	JDF jdf = new JDF();
 	private final SparseArray<Group> foodGroup = new SparseArray<Group>();
 	private Food food;
 	private boolean isStd;
+	/**
+	 * date of the log that food should saved in it. it has a default value
+	 * which is the current date.
+	 */
 	private String date = jdf.getIranianDate();
 	private TextView foodName;
 	private TextView foodCategory;
+	/**
+	 * it is textView that is showing to user when the food has no specific
+	 * unit.
+	 */
 	private TextView unitNoRadio;
 	private EditText foodSize;
 	private TextView foodSecUnit;
@@ -44,8 +60,11 @@ public class addFoodFragment extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.fragment_add_foods_2,
+		View rootView = inflater.inflate(R.layout.fragment_add_foods,
 				container, false);
+		/*
+		 * initializing the elements of the fragment
+		 */
 		foodName = (TextView) rootView.findViewById(R.id.add_page_food_name);
 		foodCategory = (TextView) rootView
 				.findViewById(R.id.add_page_food_category);
@@ -56,16 +75,22 @@ public class addFoodFragment extends DialogFragment {
 		radioUnit = (RadioGroup) rootView.findViewById(R.id.radio_unit);
 		unitNoRadio = (TextView) rootView.findViewById(R.id.unit_no_radio);
 		mealSelect = (Spinner) rootView.findViewById(R.id.meal_id);
-
-		String[] temp = getResources().getStringArray(R.array.meals_array);
-		ArrayList<String> templist = new ArrayList<String>();
-		for (String str : temp)
-			templist.add(str);
-		ArrayAdapter<String> mealadapter = new ArrayAdapter<String>(
+		// defining meals for saving data in datebase
+		/**
+		 * string array of meals which user must select for saving log in database
+		 */
+		String[] mealsArray = getResources().getStringArray(R.array.meals_array);
+		ArrayList<String> mealsList = new ArrayList<String>();
+		for (String str : mealsArray)
+			mealsList.add(str);
+		ArrayAdapter<String> mealAdapter = new ArrayAdapter<String>(
 				getActivity(), android.R.layout.simple_spinner_dropdown_item,
-				templist);
-		mealSelect.setAdapter(mealadapter);
-
+				mealsList);
+		mealSelect.setAdapter(mealAdapter);
+		
+		/*
+		 * setting elements of fragment
+		 */
 		foodName.setText(food.getName());
 		foodCategory.setText(FoodsFragment.foodCategories.get(food
 				.getCategoryId()));
@@ -77,8 +102,16 @@ public class addFoodFragment extends DialogFragment {
 			radioSecUnit.setText(FoodsFragment.foodUnits.get(food.getUnit()));
 			flag = true;
 		}
+		/*
+		 * defining onClickListener for save button (insertFood)
+		 */
 		insertFood.setOnClickListener(new OnClickListener() {
-
+			
+			/*
+			 * it checks if user left some fields empty
+			 * (non-Javadoc)
+			 * @see android.view.View.OnClickListener#onClick(android.view.View)
+			 */
 			public void onClick(View v) {
 				DatabaseHandler db = new DatabaseHandler(getActivity());
 				String size = foodSize.getText().toString();
@@ -89,9 +122,11 @@ public class addFoodFragment extends DialogFragment {
 					Toast.makeText(getActivity(), "please select a food unit",
 							2000).show();
 				} else {
+					System.out.println("addFoodFragment date  " + date);
 					db.insertFoodinUserLog(food.getId(),
 							Integer.parseInt(size), jdf.getIranianDate(), date,
-							radioStdUnit.isChecked(),mealSelect.getSelectedItemPosition());
+							radioStdUnit.isChecked(),
+							mealSelect.getSelectedItemPosition());
 					dismiss();
 				}
 			}

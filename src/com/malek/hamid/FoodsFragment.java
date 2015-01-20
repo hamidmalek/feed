@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +18,7 @@ import com.malek.hamid.handlers.FoodListAdapter;
 import com.malek.hamid.handlers.FoodSearchAdapter;
 import com.malek.hamid.handlers.Group;
 
-public class FoodsFragment extends Fragment {
+public class FoodsFragment extends DialogFragment {
 
 	private ListView searcResult;
 	private SearchView foodSearchView;
@@ -28,6 +28,7 @@ public class FoodsFragment extends Fragment {
 	public static HashMap<Integer, String> foodCategories = new HashMap<Integer, String>();
 	public static HashMap<Integer, String> foodUnits = new HashMap<Integer, String>();
 	DatabaseHandler db;
+	private String date;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +87,7 @@ public class FoodsFragment extends Fragment {
 		 * defining and setting the adapter of the foods search
 		 */
 		fsa = new FoodSearchAdapter(getActivity(), new ArrayList<Food>());
+		fsa.setDate(date);
 		searcResult.setAdapter(fsa);
 		/*
 		 * on click listener of the food search bar
@@ -118,5 +120,13 @@ public class FoodsFragment extends Fragment {
 		for (int i = 0; i < foodCategories.size(); i++) {
 			foodGroup.append(i, new Group(foodCategories.get(i + 1), i + 1));
 		}
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 }

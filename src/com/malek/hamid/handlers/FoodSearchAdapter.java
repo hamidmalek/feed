@@ -23,6 +23,7 @@ public class FoodSearchAdapter extends BaseAdapter {
 	private FragmentActivity activity;
 	private static LayoutInflater inflater = null;
 	private ArrayList<Food> data;
+	private String date;
 
 	public FoodSearchAdapter(FragmentActivity a, ArrayList<Food> d) {
 		activity = a;
@@ -48,8 +49,9 @@ public class FoodSearchAdapter extends BaseAdapter {
 		if (convertView == null)
 			vi = inflater.inflate(R.layout.search_results, null);
 
-		TextView foodName = (TextView) vi.findViewById(R.id.food_name); // food
-																		// name
+		TextView foodName = (TextView) vi
+				.findViewById(R.id.food_name_in_search); // food
+		// name
 		TextView foodCategory = (TextView) vi.findViewById(R.id.category); // food
 																			// category
 		ImageButton addFood = (ImageButton) vi
@@ -66,8 +68,9 @@ public class FoodSearchAdapter extends BaseAdapter {
 				addFoodFragment dialog = new addFoodFragment();
 				dialog.setStyle(DialogFragment.STYLE_NO_TITLE,
 						R.style.DialogeStyle);
-				System.out.println(v.getTag());
-				dialog.setFood((Food)v.getTag());
+				System.out.println("food search adapter  "+date);
+				dialog.setDate(date);
+				dialog.setFood((Food) v.getTag());
 				dialog.show(activity.getSupportFragmentManager(), "Hello");
 			}
 		});
@@ -78,6 +81,10 @@ public class FoodSearchAdapter extends BaseAdapter {
 		data.clear();
 		data.addAll(foods);
 		notifyDataSetChanged();
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 }

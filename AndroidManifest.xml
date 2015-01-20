@@ -41,6 +41,10 @@
             android:name=".DailyLogActivity"
             android:label="@string/activity_daily_log" >
         </activity>
+        <activity
+            android:name=".GoalActivity"
+            android:label="@string/activity_daily_log" >
+        </activity>
     </application>
 
 </manifest>
