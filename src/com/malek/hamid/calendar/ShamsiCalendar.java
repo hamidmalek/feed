@@ -19,9 +19,7 @@ import android.widget.TextView;
 import com.malek.hamid.DailyLog;
 import com.malek.hamid.DatabaseHandler;
 import com.malek.hamid.JDF;
-import com.malek.hamid.Log;
 import com.malek.hamid.R;
-import com.malek.hamid.R.color;
 
 public class ShamsiCalendar extends DialogFragment {
 
@@ -35,6 +33,7 @@ public class ShamsiCalendar extends DialogFragment {
 	Button leftArrowButton;
 	Button rightArrowButton;
 	GridView monthdayGridView;
+	GridView weekdayGridView;
 	int showNavigationArrows;
 	ShamsiDate date;
 	JDF jdf = new JDF();
@@ -97,10 +96,10 @@ public class ShamsiCalendar extends DialogFragment {
 		setShowNavigationArrows(showNavigationArrows);
 
 		// For the weekday gridView
-		monthdayGridView = (GridView) view.findViewById(R.id.weekday_gridview);
+		weekdayGridView = (GridView) view.findViewById(R.id.weekday_gridview);
 		WeekdayArrayAdapter weekdaysAdapter = new WeekdayArrayAdapter(
 				getActivity(), R.layout.week_day_cell, getDaysOfWeek());
-		monthdayGridView.setAdapter(weekdaysAdapter);
+		weekdayGridView.setAdapter(weekdaysAdapter);
 
 		// For the month days gridView
 		monthdayGridView = (GridView) view
@@ -166,6 +165,7 @@ public class ShamsiCalendar extends DialogFragment {
 		DatabaseHandler db = new DatabaseHandler(activity);
 		ArrayList<DailyLog> logList = db.getMonthLog(new ShamsiDate(date
 				.getMonth(), date.getYear()));
+		
 		int properEnergy = db.getProperEnergy();
 
 		int d = tempPrev.getIranianDay() + 1;
@@ -186,16 +186,24 @@ public class ShamsiCalendar extends DialogFragment {
 		lastDayOfMonth.previousDay();
 		int monthDays = lastDayOfMonth.getIranianDay();
 
+		JDF today = new JDF();
 		for (int i = 0; i < monthDays; i++) {
-			int c ;
-			int energyOfDay = logList.get(i+1).getEnergy();
-			if(energyOfDay == -1)
+			int c;
+			int energyOfDay = logList.get(i + 1).getEnergy();
+			if (date.getYear() > today.getIranianYear()
+					|| (date.getYear() == today.getIranianYear() && date
+							.getMonth() > today.getIranianMonth())
+					|| (date.getYear() == today.getIranianYear()
+							&& date.getMonth() == today.getIranianMonth() && today
+							.getIranianDay()  < (i + 1)))
+				c = Color.GRAY;
+			else if (energyOfDay == -1)
 				c = Color.BLACK;
-			else if(energyOfDay > properEnergy)
+			else if (energyOfDay > properEnergy)
 				c = Color.RED;
 			else
 				c = Color.GREEN;
-			
+
 			datesOfMonth.add(new CalendarCell(c, date.getYear() + "/"
 					+ ((date.getMonth())) + "/" + (i + 1)));
 		}
@@ -203,8 +211,8 @@ public class ShamsiCalendar extends DialogFragment {
 		int newxYear = date.getMonth() < 12 ? date.getYear()
 				: date.getYear() + 1;
 		for (int i = 1; i < numberOfDays; i++)
-			datesOfMonth.add(new CalendarCell(Color.MAGENTA, newxYear
-					+ "/" + ((date.getMonth() % 12) + 1) + "/" + (i)));
+			datesOfMonth.add(new CalendarCell(Color.MAGENTA, newxYear + "/"
+					+ ((date.getMonth() % 12) + 1) + "/" + (i)));
 		return datesOfMonth;
 	}
 

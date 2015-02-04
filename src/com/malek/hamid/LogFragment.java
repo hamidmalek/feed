@@ -44,4 +44,13 @@ public class LogFragment extends Fragment {
 	    myContext=(FragmentActivity) activity;
 	    super.onAttach(activity);
 	}
+	
+	@Override
+	public void onResume() {
+		FragmentTransaction t = myContext.getSupportFragmentManager().beginTransaction();
+		shamsiCalendar = new ShamsiCalendar(getActivity());
+		t.replace(R.id.calendar, shamsiCalendar);
+		t.commit();
+		super.onResume();
+	}
 }

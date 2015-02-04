@@ -44,18 +44,31 @@
 
         <ImageButton
             android:id="@+id/add_food_in_log"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/progressBar"
-            android:background="@color/light_red"
-            android:onClick="addFood" />
+            android:background="@null"
+            android:onClick="addFood"
+            android:scaleType="fitXY"
+            android:src="@drawable/plus" />
+
+        <ImageButton
+            android:id="@+id/submit_day_in_log"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignTop="@+id/progressBar"
+            android:layout_toLeftOf="@+id/progressBar"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_action_assignment_turned_in" />
+
     </RelativeLayout>
 
     <ListView
+        android:id="@+id/daily_log_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:id="@+id/daily_log_list">
+        android:layout_height="wrap_content" >
     </ListView>
 
 </LinearLayout>

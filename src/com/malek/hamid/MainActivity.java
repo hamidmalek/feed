@@ -8,11 +8,13 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +22,7 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements addFoodFragment.OnDBChangedListener{
 	// private String[] mPlanetTitles;
 	// private DrawerLayout mDrawerLayout;
 	// private ListView mDrawerList;
@@ -38,42 +40,56 @@ public class MainActivity extends FragmentActivity {
 	private Drawable oldBackground = null;
 	private int currentColor = 0xFF666666;
 
-	@SuppressLint("ResourceAsColor") @Override
+	@SuppressLint("ResourceAsColor")
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		System.out.println("Main Activity Start");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
 		tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 		pager = (ViewPager) findViewById(R.id.pager);
 		
+		DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+//		user = db.getUser();
 		user = getIntent().getParcelableExtra("user");
-		adapter = new MyPagerAdapter(getSupportFragmentManager(),user);
+		System.out.println("W:"+user.getWeight());
+		System.out.println("G:"+ user.getDesiredWeight());
+		//TODO user desired weight is zero ?!!!!
+		adapter = new MyPagerAdapter(getSupportFragmentManager(), user);
 
 		pager.setAdapter(adapter);
 
-
 		tabs.setTextColorResource(R.color.tab_text_color);
 		tabs.setViewPager(pager);
+
+		if (db.getShowStat()) {
+			StatScreenFragment statScreen = new StatScreenFragment();
+			statScreen.setUser(user);
+			statScreen.setStyle(DialogFragment.STYLE_NO_TITLE,
+					R.style.FullscreenTheme);
+			statScreen.show(getSupportFragmentManager(), "Hi");
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-//		getMenuInflater().inflate(R.menu.main, menu);
+		 getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-//		switch (item.getItemId()) {
-//
-//		case R.id.action_contact:
-//			addFoodFragment dialog = new addFoodFragment();
-//			dialog.show(getSupportFragmentManager(), "QuickContactFragment");
-//			return true;
-//
-//		}
-//
+		// switch (item.getItemId()) {
+		//
+		// case R.id.action_contact:
+		// addFoodFragment dialog = new addFoodFragment();
+		// dialog.show(getSupportFragmentManager(), "QuickContactFragment");
+		// return true;
+		//
+		// }
+		//
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -158,12 +174,13 @@ public class MainActivity extends FragmentActivity {
 	};
 
 	public class MyPagerAdapter extends FragmentPagerAdapter {
-		
-		Person user ;
+
+		Person user;
+		SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 		private final String[] TITLES = getResources().getStringArray(
 				R.array.main_tabs_array);
 
-		public MyPagerAdapter(FragmentManager fm,Person user) {
+		public MyPagerAdapter(FragmentManager fm, Person user) {
 			super(fm);
 			this.user = user;
 		}
@@ -177,6 +194,10 @@ public class MainActivity extends FragmentActivity {
 		public int getCount() {
 			return TITLES.length;
 		}
+		
+		public Fragment getFragment(int position){
+			return registeredFragments.get(position);
+		}
 
 		@Override
 		public Fragment getItem(int position) {
@@ -184,28 +205,38 @@ public class MainActivity extends FragmentActivity {
 			case 0:
 				StatusFragment sf = new StatusFragment();
 				sf.setUser(this.user);
+				registeredFragments.put(0, sf);
 				return sf;
 			case 1:
 				return new FoodsFragment();
 			case 2:
 				return new LogFragment();
-			case 3: 
-				return new WorkoutFragment();
+//			case 3:
+//				return new WorkoutFragment();
 			}
 			return null;
 		}
 
 	}
-	
-	public void addFood(View view){
+
+	public void addFood(View view) {
 		addFoodFragment dialog = new addFoodFragment();
 		DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 		db.getFoodList();
 		dialog.show(getSupportFragmentManager(), "FoodList");
 	}
-	
-	public void insertFoodToLog(View view){
+
+	public void insertFoodToLog(View view) {
 		Toast.makeText(getApplicationContext(), "Hi there :D", 10000).show();
+	}
+	
+	public void setUser(Person user){
+		this.user = user;
+	}
+
+	public void onDBChanged() {
+		StatusFragment sfrag = (StatusFragment)adapter.getFragment(0);
+		sfrag.updateProgressBar();
 	}
 
 }

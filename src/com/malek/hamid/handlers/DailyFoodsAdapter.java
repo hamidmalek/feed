@@ -66,8 +66,9 @@ public class DailyFoodsAdapter extends BaseAdapter {
 		return vi;
 	}
 
-	public void setDataList(ArrayList<Food> foods) {
+	public void setDataList(ArrayList<Log> foods) {
 		data.clear();
+		data = foods;
 		notifyDataSetChanged();
 	}
 

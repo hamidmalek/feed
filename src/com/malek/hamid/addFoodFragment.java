@@ -2,6 +2,8 @@ package com.malek.hamid;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.SparseArray;
@@ -29,7 +31,33 @@ import com.malek.hamid.handlers.Group;
  * @author hamid_
  * 
  */
-public class addFoodFragment extends DialogFragment {
+public class addFoodFragment extends DialogFragment implements
+		DialogInterface.OnDismissListener {
+	// callback
+	private OnDBChangedListener mCallback;
+
+	public interface OnDBChangedListener {
+		public void onDBChanged();
+	}
+
+	public void onDismiss(DialogInterface dialog) {
+		mCallback.onDBChanged();
+		super.onDismiss(dialog);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		// This makes sure that the container activity has implemented
+		// the callback interface. If not, it throws an exception
+		try {
+			mCallback = (OnDBChangedListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnDBChangedListener");
+		}
+	}
 
 	JDF jdf = new JDF();
 	private final SparseArray<Group> foodGroup = new SparseArray<Group>();
@@ -77,9 +105,11 @@ public class addFoodFragment extends DialogFragment {
 		mealSelect = (Spinner) rootView.findViewById(R.id.meal_id);
 		// defining meals for saving data in datebase
 		/**
-		 * string array of meals which user must select for saving log in database
+		 * string array of meals which user must select for saving log in
+		 * database
 		 */
-		String[] mealsArray = getResources().getStringArray(R.array.meals_array);
+		String[] mealsArray = getResources()
+				.getStringArray(R.array.meals_array);
 		ArrayList<String> mealsList = new ArrayList<String>();
 		for (String str : mealsArray)
 			mealsList.add(str);
@@ -87,7 +117,7 @@ public class addFoodFragment extends DialogFragment {
 				getActivity(), android.R.layout.simple_spinner_dropdown_item,
 				mealsList);
 		mealSelect.setAdapter(mealAdapter);
-		
+
 		/*
 		 * setting elements of fragment
 		 */
@@ -106,10 +136,10 @@ public class addFoodFragment extends DialogFragment {
 		 * defining onClickListener for save button (insertFood)
 		 */
 		insertFood.setOnClickListener(new OnClickListener() {
-			
+
 			/*
-			 * it checks if user left some fields empty
-			 * (non-Javadoc)
+			 * it checks if user left some fields empty (non-Javadoc)
+			 * 
 			 * @see android.view.View.OnClickListener#onClick(android.view.View)
 			 */
 			public void onClick(View v) {

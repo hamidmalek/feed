@@ -4,10 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Person implements Parcelable {
+	
+	private final int WEIGHT_LOSE_RATE = 100;
+	
 	/*
 	 * weight of the user in kilograms
 	 */
-	private int weight;
+	private float weight;
 	/*
 	 * height of the user in centimeter
 	 */
@@ -19,11 +22,11 @@ public class Person implements Parcelable {
 	/*
 	 * user gender, true for female and false for male
 	 */
-	private boolean sex;
+	private int sex;
 	/*
 	 * user desired weight
 	 */
-	private int desiredWeight;
+	private float desiredWeight;
 	/*
 	 * user activity level
 	 */
@@ -33,12 +36,12 @@ public class Person implements Parcelable {
 	 */
 	private String deadline;
 
-	public int getDesiredWeight() {
+	public float getDesiredWeight() {
 		return desiredWeight;
 	}
 
-	public void setDesiredWeight(int desiredWeight) {
-		this.desiredWeight = desiredWeight;
+	public void setDesiredWeight(float f) {
+		this.desiredWeight = f;
 	}
 
 	public String getDeadline() {
@@ -49,11 +52,11 @@ public class Person implements Parcelable {
 		this.deadline = deadline;
 	}
 
-	public int getWeight() {
+	public float getWeight() {
 		return weight;
 	}
 
-	public void setWeight(int weight) {
+	public void setWeight(float weight) {
 		this.weight = weight;
 	}
 
@@ -76,7 +79,7 @@ public class Person implements Parcelable {
 		this.birthday = birthday;
 	}
 
-	public Person(int weight, int height, String birthday, boolean sex) {
+	public Person(float weight, int height, String birthday, int sex) {
 		super();
 		this.weight = weight;
 		this.height = height;
@@ -85,14 +88,13 @@ public class Person implements Parcelable {
 	}
 
 	public Person(Parcel parcel) {
-		weight = Integer.parseInt(parcel.readString());
+		weight = Float.parseFloat(parcel.readString());
 		height = Integer.parseInt(parcel.readString());
 		birthday = parcel.readString();
-		if (parcel.readString() == "1")
-			sex = true;
-		else
-			sex = false;
+		sex = Integer.parseInt(parcel.readString());
 		activityLevel = Integer.parseInt(parcel.readString());
+		desiredWeight = Float.parseFloat(parcel.readString());
+		deadline = parcel.readString();
 	}
 
 	/**
@@ -101,11 +103,11 @@ public class Person implements Parcelable {
 	 * 
 	 * @return boolean
 	 */
-	public boolean getSex() {
+	public int getSex() {
 		return sex;
 	}
 
-	public void setSex(boolean sex) {
+	public void setSex(int sex) {
 		this.sex = sex;
 	}
 
@@ -134,11 +136,10 @@ public class Person implements Parcelable {
 		dest.writeString(String.valueOf(weight));
 		dest.writeString(String.valueOf(height));
 		dest.writeString(String.valueOf(birthday));
-		if (sex)
-			dest.writeString("1");
-		else
-			dest.writeString("0");
+		dest.writeString(String.valueOf(sex));
 		dest.writeString(String.valueOf(activityLevel));
+		dest.writeString(String.valueOf(desiredWeight));
+		dest.writeString(String.valueOf(deadline));
 	}
 
 	public static final Creator<Person> CREATOR = new Creator<Person>() {
@@ -159,24 +160,17 @@ public class Person implements Parcelable {
 	 */
 	public int getBMR() {
 		float temp = 0;
-		if (sex) {
+		if (sex == 1) {
 			temp = (float) (655 + (9.479866 * weight) + (1.8503947 * height) - (4.7 * getAge()));
 		} else {
 			temp = (float) (66 + (13.889106 * weight) + (5.0787429 * height) - (6.8 * getAge()));
 		}
-		return Math.round(temp*getActivityProportion());
+		return Math.round(temp * getActivityProportion());
 	}
 
 	@Override
 	public String toString() {
 		String temp = "The User has these info";
-		String gender = !sex ? "his" : "her";
-		temp += " , " + gender + " weight is " + weight;
-		temp += " , " + gender + " height is " + height;
-		gender = sex ? "she " : "he ";
-		temp += ", and " + gender + "is " + getAge() + " years old. ";
-		temp += gender + " should use " + getBMR() * getActivityLevel()
-				+ " kcal everyday to keep weight.";
 		return temp;
 	}
 
@@ -187,28 +181,45 @@ public class Person implements Parcelable {
 	public void setActivityLevel(int activityLevel) {
 		this.activityLevel = activityLevel;
 	};
-	
-	private float getActivityProportion(){
+
+	private float getActivityProportion() {
 		float temp = 1;
 		switch (activityLevel) {
 		case 1:
 			temp = 1.2f;
 			break;
 		case 2:
-			temp = 1.2f;
+			temp = 1.3f;
 			break;
 		case 3:
-			temp = 1.2f;
+			temp = 1.4f;
 			break;
 		case 4:
-			temp = 1.2f;
+			temp = 1.5f;
 			break;
 		case 5:
-			temp = 1.2f;
+			temp = 1.6f;
 			break;
 		default:
+			temp = 1.2f;
 			break;
 		}
 		return temp;
+	}
+
+	/**
+	 * this function calculate proper calorie for user based on the deadline and
+	 * the bmr
+	 * 
+	 * @return
+	 */
+	public int getProperCalorie() {
+		if (desiredWeight < weight) {
+			float difWeight = weight - desiredWeight ;
+			//TODO
+		}else{
+			
+		}
+		return 0;
 	}
 }

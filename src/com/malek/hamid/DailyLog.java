@@ -12,13 +12,15 @@ public class DailyLog {
 	private int day ;
 	private int energy ;
 	private int protein;
+	private int status;
 	
 	
-	public DailyLog(int day, int energy, int protein) {
+	public DailyLog(int day, int energy, int protein, int status) {
 		super();
 		this.day = day;
 		this.energy = energy;
 		this.protein = protein;
+		this.status = status;
 	}
 
 	public int getDay() {
@@ -40,6 +42,14 @@ public class DailyLog {
 	}
 	public void setProtein(int protein) {
 		this.protein = protein;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 }

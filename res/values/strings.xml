@@ -3,6 +3,7 @@
 
     <string name="hello">Hello World, LoginActivity!</string>
     <string name="app_name">کاهش وزن</string>
+    <string name="login_page_title">مشخصات خود را وارد کنید</string>
     <string name="female">زن</string>
     <string name="male">مرد</string>
     <string name="weight">وزن</string>
@@ -12,7 +13,7 @@
     <string name="sex">جنسیت</string>
     <string name="title_activity_stat_screen">StatScreenActivity</string>
     <string name="skip_button">skip</string>
-    <string name="dont_show_button">don\'t show</string>
+    <string name="dont_show_button">don\'t show again</string>
     <string name="activity_main">MainActivity</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -37,10 +38,14 @@
     <string name="text_3">طی مدت </string>
     <string name="text_4">شوید. </string>
     
+    <string name="login_message">لطفا اطلاعات خود را به طور کامل وارد نمایید.</string>
     
     <string name="lady">خانم</string>
     <string name="gentle">آقا</string>
     
+    <string name="no_goal_message">شما هدفی برای خود تعیین نکرده اید. \n حفظ وزن برای شما به عنوان هدف تعیین شده است.</string>
+    
+    <string name="set_goal">تعیین هدف</string>
     <string-array name="meals_array">
         <item>میان وعده اول</item>
         <item>صبحانه</item>
@@ -52,7 +57,6 @@
     <string-array name="main_tabs_array">
         <item>امروز</item>
         <item>غذاها</item>
-        <item>تمرین</item>
         <item>تقویم</item>
     </string-array>
 

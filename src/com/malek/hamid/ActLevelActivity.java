@@ -47,13 +47,15 @@ public class ActLevelActivity extends Activity {
 			 */
 			public void onClick(View v) {
 				Intent intent = new Intent(getBaseContext(),
-						StatScreenActivity.class);
+						MainActivity.class);
 				Person user = getIntent().getParcelableExtra("user");
 				user.setActivityLevel((Integer) v.getTag());
 				DatabaseHandler db = new DatabaseHandler(
 						getApplicationContext());
 				db.setuserInfo(user);
+				user.setDesiredWeight(user.getWeight());
 				intent.putExtra("user", user);
+				finish();
 				startActivity(intent);
 			}
 		});

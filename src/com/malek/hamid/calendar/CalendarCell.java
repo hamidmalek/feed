@@ -1,6 +1,5 @@
 package com.malek.hamid.calendar;
 
-import android.graphics.Color;
 
 public class CalendarCell {
 	private int cellColor;

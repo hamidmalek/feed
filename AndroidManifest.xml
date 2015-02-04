@@ -15,8 +15,8 @@
         android:theme="@style/AppMainTheme" >
         <activity
             android:name=".LoginActivity"
-            android:label="Login to your Account"
-            android:theme="@style/NPWidget.Holo.NumberPicker" >
+            android:label="@string/login_page_title"
+            android:theme="@style/LoginPageTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".StatScreenActivity"
+            android:name=".StatScreenFragment"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_stat_screen"
             android:theme="@style/FullscreenTheme" >

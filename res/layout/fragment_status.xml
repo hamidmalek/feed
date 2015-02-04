@@ -19,14 +19,13 @@
                 android:id="@+id/today_calorie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="200"
                 android:textColor="@color/black"
                 android:textSize="25sp" />
 
             <TextView
+                android:id="@+id/daily_calorie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/daily_calorie"
                 android:layout_below="@id/today_calorie"
                 android:text="100"
                 android:textColor="@color/black"
@@ -43,6 +42,7 @@
             android:indeterminate="false"
             android:max="100"
             android:progressDrawable="@drawable/circular_progress_bar" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -51,24 +51,38 @@
             android:background="@color/border" />
 
         <ImageButton
-            android:id="@+id/addFood"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:id="@+id/addFood_inStatus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/progressBar"
-            android:background="@color/light_red"
-            android:onClick="addFood" />
-
+            android:background="@null"
+            android:onClick="addFood"
+            android:scaleType="fitXY"
+            android:src="@drawable/plus" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_goal_height" >
+        <Button
+            android:id="@+id/set_goal_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="@string/set_goal" />
 
         <TextView
             android:id="@+id/goal_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/set_goal_button"
+            android:text="@string/no_goal_message" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -83,17 +97,17 @@
         android:layout_height="@dimen/status_advice_height" >
 
         <RelativeLayout
+            android:id="@+id/advice_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/advice_title" >
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/advice_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:text="@string/today_advice"
                 android:textColor="@color/tab_text_color"
-                android:text="@string/today_advice" />
+                android:textSize="15sp" />
         </RelativeLayout>
 
         <RelativeLayout

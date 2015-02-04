@@ -1,6 +1,5 @@
 package com.malek.hamid.calendar;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +12,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.malek.hamid.DailyLogActivity;
-import com.malek.hamid.MainActivity;
 import com.malek.hamid.R;
 
 /**
@@ -26,8 +25,8 @@ import com.malek.hamid.R;
 public class MonthDaysArrayAdapter extends ArrayAdapter<CalendarCell> {
 	public static int textColor = Color.LTGRAY;
 	private Context context;
-	private ArrayList<CalendarCell> monthLog ;
-	
+	private ArrayList<CalendarCell> monthLog;
+
 	public MonthDaysArrayAdapter(Context context, int textViewResourceId,
 			List<CalendarCell> objects) {
 		super(context, textViewResourceId, objects);
@@ -46,48 +45,83 @@ public class MonthDaysArrayAdapter extends ArrayAdapter<CalendarCell> {
 		return false;
 	}
 
+	static class ViewHolder {
+		RelativeLayout cell;
+		ImageView background;
+		TextView day;
+	}
+
 	// Set color to gray and text size to 12sp
-	@SuppressLint("ResourceAsColor") @Override
+	@SuppressLint("ResourceAsColor")
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View cellView = convertView;
+		ViewHolder viewHolder = null;
 
 		// For reuse
 		if (convertView == null) {
 			cellView = inflater.inflate(R.layout.custom_cell, null);
+			viewHolder = new ViewHolder();
+			viewHolder.day = (TextView) cellView.findViewById(R.id.tv1);
+			viewHolder.background = (ImageView) cellView
+					.findViewById(R.id.cell_background);
+			cellView.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) cellView.getTag();
 		}
 
-
-		TextView tv1 = (TextView) cellView.findViewById(R.id.tv1);
-
-		tv1.setTextColor(Color.BLACK);
+		viewHolder.day.setTextColor(Color.BLACK);
 
 		// Get dateTime of this cell
-		cellView.setBackgroundColor(monthLog.get(position).getCellColor());
-		if(monthLog.get(position).getCellColor() == Color.BLACK)
-			tv1.setTextColor(Color.WHITE);
-		
-			
+		// cellView.setBackgroundColor(monthLog.get(position).getCellColor());
+		// cellView.setBackgroundColor(null);
 
-		tv1.setText("" + monthLog.get(position).getDay());
-		if(monthLog.get(position).getCellColor() == Color.MAGENTA){
-			tv1.setText("");
-			cellView.setBackgroundColor(R.color.fragment_background);
+		if (monthLog.get(position).getCellColor() == Color.BLACK)
+			viewHolder.day.setTextColor(Color.BLACK);
+		else
+			viewHolder.day.setTextColor(Color.BLACK);
+
+		if (monthLog.get(position).getCellColor() == Color.MAGENTA) {
+			viewHolder.day.setText("");
+			viewHolder.background.setVisibility(View.INVISIBLE);
+		} else {
+			viewHolder.day.setText("" + monthLog.get(position).getDay());
+			viewHolder.background.setVisibility(View.VISIBLE);
 		}
-		cellView.setTag(monthLog.get(position).getDate());
-		cellView.setOnClickListener(new OnClickListener() {
+		viewHolder.background.setTag(monthLog.get(position).getDate());
+		viewHolder.background.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				Toast.makeText(context, (CharSequence) v.getTag(), 10000).show();
 				Intent intent = new Intent(getContext(), DailyLogActivity.class);
-				intent.putExtra("date",(CharSequence) v.getTag());
+				intent.putExtra("date", (CharSequence) v.getTag());
 				context.startActivity(intent);
 			}
 		});
+
+		switch (monthLog.get(position).getCellColor()) {
+		case Color.RED:
+			viewHolder.background
+					.setImageResource(R.drawable.calendar_cell_red);
+			break;
+		case Color.GREEN:
+			viewHolder.background
+					.setImageResource(R.drawable.calendar_cell_green);
+			break;
+		case Color.GRAY:
+			viewHolder.background
+					.setImageResource(R.drawable.calendar_cell_gray);
+			viewHolder.background.setOnClickListener(null);
+			break;
+		default:
+			break;
+		}
+
+		// viewHolder.background.setVisibility(View.GONE);
 		return cellView;
 	}
-	
+
 	@Override
 	public int getCount() {
 		return monthLog.size();

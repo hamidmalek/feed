@@ -34,7 +34,14 @@
             android:id="@+id/weight"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1" >
+        </net.simonvt.numberpicker.NumberPicker>
+
+        <net.simonvt.numberpicker.NumberPicker
+            android:id="@+id/weightDec"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:paddingLeft="5dp"
             android:paddingRight="5dp" >
         </net.simonvt.numberpicker.NumberPicker>
@@ -156,26 +163,30 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:paddingTop="20dp"
+        android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:orientation="horizontal"
+        android:paddingTop="20dp"
         android:weightSum="9" >
 
-        <ImageView
+        <ImageButton
             android:id="@+id/man_image"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
-            android:src="@drawable/activity_level_high" />
+            android:background="@null"
+            android:src="@drawable/man" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="-50dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="@string/lady"
-            android:textColor="#372c24" />
+            android:textColor="#372c24"
+            android:textSize="15sp" />
 
         <Space
             android:layout_width="0dp"
@@ -184,18 +195,22 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="50dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="@string/gentle"
-            android:textColor="#372c24" />
+            android:textColor="#372c24"
+            android:textSize="15sp" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/woman_image"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
-            android:src="@drawable/activity_level_low" />
+            android:background="@null"
+            android:src="@drawable/woman" />
 
         <!-- Birth Date -->
 

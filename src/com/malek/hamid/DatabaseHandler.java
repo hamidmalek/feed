@@ -26,6 +26,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 	private static final String TABLE_ACTIVITY_LEVEL = "activityLevels";
 	private static final String TABLE_FOOD_UNITS = "foodUnits";
 	private static final String TABLE_DAILY_LOG = "dailyNutritionLog";
+	private static final String TABLE_APP_SETTING = "appSetting";
 
 	// foods table columns names
 	private static final String KEY_FOOD_NAME = "FoodName";
@@ -48,6 +49,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 	private static final String KEY_USER_ACTIVITY_LEVEL = "ActivityLevelId";
 	private static final String KEY_USER_GOAL_WEIGHT = "GoalWeight";
 	private static final String KEY_USER_GOAL_DEADLINE = "GoalDeadline";
+
 	// user nutrition log table columns names
 	private static final String KEY_LOG_TABLE_FOOD_ID = "FoodId";
 	private static final String KEY_DATE_ADDED = "DateAdded";
@@ -71,6 +73,10 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 	private static final String KEY_DAILY_PROTEIN = "DailyProtein";
 	private static final String KEY_DAILY_ENERGY = "DailyEnergy";
 	private static final String KEY_DAILY_LOG_DATE = "Date";
+	private static final String KEY_DAILY_LOG_STATUS = "Status";
+
+	// app setting columns
+	private static final String KEY_SHOW_STAT = "ShowStat";
 
 	// constructor
 	public DatabaseHandler(Context context) {
@@ -79,22 +85,8 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 		setForcedUpgrade(1);
 	}
 
-	public ArrayList<String> getData() {
-		ArrayList<String> ret = new ArrayList<String>();
-		String selectQuery = "SELECT  * FROM " + TABLE_FOOD;
-
-		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cursor = db.rawQuery(selectQuery, null);
-
-		if (cursor.moveToFirst()) {
-			do {
-				ret.add(cursor.getString(cursor.getColumnIndex(KEY_FOOD_NAME)));
-			} while (cursor.moveToNext());
-		}
-		cursor.close();
-		db.close();
-		return ret;
-	}
+	// //////////////////// USER FUNCTIONS /////////////////////////
+	// //////////////////////////////////////////////////////////////
 
 	/**
 	 * 
@@ -110,19 +102,147 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 	 *            : birth date should be in format yyyy/mm/dd
 	 * 
 	 */
-	public void setUserInfo(int weight, int height, int sex, String birthDate,
-			int activityLevel, int fulfilled) {
+	public void setUserInfo(float weight, int height, int sex,
+			String birthDate, int activityLevel, int fulfilled) {
 		System.out.println("calling setUserInfo -- begin");
-		String query = "INSERT INTO " + TABLE_USERINFO + "(" + KEY_WEIGHT + ","
-				+ KEY_HEIGHT + "," + KEY_SEX + "," + KEY_BIRTHDATE + ","
-				+ KEY_USER_ACTIVITY_LEVEL + "," + KEY_FULFILLED + ") values ("
-				+ "'" + weight + "'," + "'" + height + "'," + "'" + sex + "',"
-				+ "'" + birthDate + "','" + activityLevel + "'," + "'"
-				+ fulfilled + "');";
-		SQLiteDatabase db = this.getWritableDatabase();
-		db.execSQL(query);
-		db.close();
+		if (getUser() == null) {
+			SQLiteDatabase db = this.getWritableDatabase();
+			System.out.println("user is null");
+			String query = "INSERT INTO " + TABLE_USERINFO + "(" + KEY_WEIGHT
+					+ "," + KEY_HEIGHT + "," + KEY_SEX + "," + KEY_BIRTHDATE
+					+ "," + KEY_USER_ACTIVITY_LEVEL + "," + KEY_FULFILLED + ","
+					+ KEY_USER_GOAL_WEIGHT + ") values (" + "'" + weight + "',"
+					+ "'" + height + "'," + "'" + sex + "'," + "'" + birthDate
+					+ "','" + activityLevel + "'," + "'" + fulfilled + "',"
+					+ "'" + weight + "');";
+			db.execSQL(query);
+			db.close();
+		} else {
+			SQLiteDatabase db = this.getWritableDatabase();
+			System.out.println("user is not null");
+			String query = "UPDATE " + TABLE_USERINFO + " SET " + KEY_WEIGHT
+					+ "=" + weight + "," + KEY_HEIGHT + "=" + height + ","
+					+ KEY_BIRTHDATE + "=" + birthDate + ","
+					+ KEY_USER_ACTIVITY_LEVEL + "=" + activityLevel + ","
+					+ KEY_FULFILLED + "=" + fulfilled + "," + KEY_SEX + "="
+					+ sex + ";";
+			db.execSQL(query);
+			db.close();
+		}
 		System.out.println("calling setUserInfo -- end");
+	}
+
+	/**
+	 * this function modifies user's weight
+	 * 
+	 * @param weight
+	 *            : the proper weight of user
+	 */
+	public void updateUserWeight(float weight) {
+		if (getUser() != null) {
+			String query = "UPDATE " + TABLE_USERINFO + " SET " + KEY_WEIGHT
+					+ "=" + weight + ";";
+			SQLiteDatabase db = this.getWritableDatabase();
+			db.execSQL(query);
+			db.close();
+		}
+	}
+
+	/**
+	 * this function changes user height
+	 * 
+	 * @param height
+	 *            : proper height
+	 */
+	public void updateUserHeight(int height) {
+		if (getUser() != null) {
+			String query = "UPDATE " + TABLE_USERINFO + " SET " + KEY_HEIGHT
+					+ "=" + height + ";";
+			SQLiteDatabase db = this.getWritableDatabase();
+			db.execSQL(query);
+			db.close();
+		}
+	}
+
+	/**
+	 * this function modifies user's sex
+	 * 
+	 * @param sex
+	 *            : 0 means male and 1 means female
+	 */
+	public void updateUserSex(int sex) {
+		if (getUser() != null) {
+			String query = "UPDATE " + TABLE_USERINFO + " SET " + KEY_SEX + "="
+					+ sex + ";";
+			SQLiteDatabase db = this.getWritableDatabase();
+			db.execSQL(query);
+			db.close();
+		}
+	}
+
+	/**
+	 * this function modifies user's goal weight
+	 * 
+	 * @param goalWeight
+	 *            : proper goal weight for user
+	 */
+	public void updateUserGoal(float goalWeight) {
+		if (getUser() != null) {
+			String query = "UPDATE " + TABLE_USERINFO + " SET "
+					+ KEY_USER_GOAL_WEIGHT + "=" + goalWeight + ";";
+			SQLiteDatabase db = this.getWritableDatabase();
+			db.execSQL(query);
+			db.close();
+		}
+	}
+
+	/**
+	 * this function modifies user's birth date
+	 * 
+	 * @param birthDate
+	 *            : the proper birth date that should be in format yyyy/mm/dd
+	 */
+	public void updateUserBirthDate(String birthDate) {
+		if (getUser() != null) {
+			String query = "UPDATE " + TABLE_USERINFO + " SET " + KEY_BIRTHDATE
+					+ "=" + birthDate + ";";
+			SQLiteDatabase db = this.getWritableDatabase();
+			db.execSQL(query);
+			db.close();
+		}
+	}
+
+	/**
+	 * this function modifies user's goal deadline
+	 * 
+	 * @param deadLine
+	 *            : the proper deadline that should be in format yyyy/mm/dd
+	 */
+	public void updateUserDeadLine(String deadLine) {
+		if (getUser() != null) {
+			String query = "UPDATE " + TABLE_USERINFO + " SET "
+					+ KEY_USER_GOAL_DEADLINE + "='" + deadLine + "';";
+			System.out.println(query);
+			SQLiteDatabase db = this.getWritableDatabase();
+			db.execSQL(query);
+			db.close();
+		}
+	}
+
+	/**
+	 * this function modifies user's activity level
+	 * 
+	 * @param deadLine
+	 *            : the proper deadline that should be in format yyyy/mm/dd
+	 */
+	public void updateUserActivityLevel(int activityLevel) {
+		if (getUser() != null) {
+			String query = "UPDATE " + TABLE_USERINFO + " SET "
+					+ KEY_USER_ACTIVITY_LEVEL + "=" + activityLevel + ";";
+			SQLiteDatabase db = this.getWritableDatabase();
+			db.execSQL(query);
+			db.close();
+		}
 	}
 
 	/**
@@ -130,17 +250,14 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 	 *            : the object of the user that contains the info
 	 */
 	public void setuserInfo(Person person) {
-		int sex = 0;
-		if (person.getSex())
-			sex = 1;
-		setUserInfo(person.getWeight(), person.getHeight(), sex,
+		setUserInfo(person.getWeight(), person.getHeight(), person.getSex(),
 				person.getBirthday(), person.getActivityLevel(), 1);
 	}
 
 	/**
 	 * this function returns true if user filled his information in advance.
 	 * 
-	 * @return
+	 * @return true if user information is fulfilled
 	 */
 	public boolean getUserFulfilled() {
 		String query = "SELECT " + KEY_FULFILLED + " FROM " + TABLE_USERINFO;
@@ -164,6 +281,60 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 			db.close();
 			return false;
 		}
+	}
+
+	/**
+	 * this function return the user of the application
+	 * 
+	 * @return Person: the user as a Person object
+	 */
+	public Person getUser() {
+		String query = "SELECT * FROM " + TABLE_USERINFO;
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor c = db.rawQuery(query, null);
+		if (c.moveToFirst()) {
+			float weight = c.getFloat(c.getColumnIndex(KEY_WEIGHT));
+			int height = c.getInt(c.getColumnIndex(KEY_HEIGHT));
+			String birthday = c.getString(c.getColumnIndex(KEY_BIRTHDATE));
+			int sex = c.getInt(c.getColumnIndex(KEY_SEX));
+			int activityLevel = c.getInt(c
+					.getColumnIndex(KEY_USER_ACTIVITY_LEVEL));
+			int goalWeight = c.getInt(c.getColumnIndex(KEY_USER_GOAL_WEIGHT));
+			String goalDeadline = c.getString(c
+					.getColumnIndex(KEY_USER_GOAL_DEADLINE));
+			Person user = new Person(weight, height, birthday, sex);
+			user.setDesiredWeight(goalWeight);
+			System.out.println("1---" + goalDeadline);
+			user.setDeadline(goalDeadline);
+			System.out.println("2----" + user.getDeadline());
+			user.setActivityLevel(activityLevel);
+			c.close();
+			db.close();
+			return user;
+		} else {
+			db.close();
+			return null;
+		}
+	}
+
+	// //////////////////// FOOD FUNCTIONS /////////////////////////
+	// //////////////////////////////////////////////////////////////
+
+	public ArrayList<String> getData() {
+		ArrayList<String> ret = new ArrayList<String>();
+		String selectQuery = "SELECT  * FROM " + TABLE_FOOD;
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		if (cursor.moveToFirst()) {
+			do {
+				ret.add(cursor.getString(cursor.getColumnIndex(KEY_FOOD_NAME)));
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		db.close();
+		return ret;
 	}
 
 	/**
@@ -201,7 +372,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 	 *            : size is used to calculate calorie
 	 * @param dateAdded
 	 *            : the time when food added to database
-	 * @param logDate
+	 * @param dateServed
 	 *            : the date when the food served
 	 * @param isStd
 	 *            : true if the unit of the food is standard
@@ -209,7 +380,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 	 *            : the id of the meal of the food
 	 */
 	public void insertFoodinUserLog(int foodId, int size, String dateAdded,
-			String logDate, boolean isStd, int mealId) {
+			String dateServed, boolean isStd, int mealId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		int isStdtemp = 0;
@@ -220,37 +391,43 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 				+ "," + KEY_DATE_ADDED + "," + KEY_LOG_TABLE_FOOD_ID + ","
 				+ KEY_LOG_DATE + "," + KEY_LOG_IS_STD + "," + KEY_MEAL_ID
 				+ ") values (" + "'" + size + "'," + "'" + dateAdded + "',"
-				+ "'" + foodId + "'," + "'" + logDate + "'," + "'" + isStdtemp
-				+ "'," + "'" + mealId + "');";
+				+ "'" + foodId + "'," + "'" + dateServed + "'," + "'"
+				+ isStdtemp + "'," + "'" + mealId + "');";
+
+		System.out.println("+++++++++++++++++++++");
+		System.out.println(query);
+		System.out.println("+++++++++++++++++++++");
 		db.execSQL(query);
 		// updating daily log table
 		double energy = 0f;
 		double protein = 0f;
 		Food food = getFood(foodId);
 		if (isStd) {
-			energy = food.getCalorieSI() * size;
-			protein = food.getStdProtein() * size;
+			energy = food.getCalorieSI() * size / 100;
+			protein = food.getStdProtein() * size / 100;
 		} else {
 			energy = food.getCalorieUnit() * size;
 			protein = food.getUnitProtein() * size;
 		}
-		System.out.println("logDate" + logDate);
-		if (getDayLog(logDate).getEnergy() == -1) {
+		System.out.println("logDate" + dateServed);
+		if (getDayLog(dateServed).getEnergy() == -1) {
 			System.out.println("HERE");
 			query = "INSERT INTO " + TABLE_DAILY_LOG + "(" + KEY_DAILY_LOG_DATE
 					+ "," + KEY_DAILY_ENERGY + "," + KEY_DAILY_PROTEIN
-					+ ") values (" + "'" + dateAdded + "'," + "'" + energy
+					+ ") values (" + "'" + dateServed + "'," + "'" + energy
 					+ "'," + "'" + protein + "');";
 		} else {
 			System.out.println("THERE");
-			DailyLog dayLog = getDayLog(logDate);
+			DailyLog dayLog = getDayLog(dateServed);
 			query = "UPDATE " + TABLE_DAILY_LOG + " SET " + KEY_DAILY_ENERGY
-					+ "=" + (energy + dayLog.getEnergy()) + ","
+					+ " = " + (energy + dayLog.getEnergy()) + ","
 					+ KEY_DAILY_PROTEIN + "=" + (protein + dayLog.getProtein())
-					+ " WHERE " + KEY_DAILY_LOG_DATE + "=" + logDate + ";";
-			System.out.println("P:" + dayLog.getProtein());
-			System.out.println("E:" + dayLog.getEnergy());
+					+ " WHERE " + KEY_DAILY_LOG_DATE + "= '" + dateServed
+					+ "';";
 		}
+		System.out
+				.println("query of inserting data in daily log or updating data");
+		System.out.println(query);
 		db = this.getWritableDatabase();
 		db.execSQL(query);
 		db.close();
@@ -337,6 +514,8 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 				foodCategories.put(id, name);
 			} while (c.moveToNext());
 		}
+		c.close();
+		db.close();
 		return foodCategories;
 	}
 
@@ -364,27 +543,9 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 						categoryId));
 			} while (c.moveToNext());
 		}
+		c.close();
+		db.close();
 		return foods;
-	}
-
-	/**
-	 * this function return the user of the application
-	 * 
-	 * @return Person: the user as a Person object
-	 */
-	public Person getUser() {
-		String query = "SELECT * FROM " + TABLE_USERINFO;
-		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor c = db.rawQuery(query, null);
-		c.moveToFirst();
-		int weight = c.getInt(c.getColumnIndex(KEY_WEIGHT));
-		int height = c.getInt(c.getColumnIndex(KEY_HEIGHT));
-		String birthday = c.getString(c.getColumnIndex(KEY_BIRTHDATE));
-		boolean sex = false;
-		if (c.getInt(c.getColumnIndex(KEY_SEX)) == 1)
-			sex = true;
-		Person user = new Person(weight, height, birthday, sex);
-		return user;
 	}
 
 	/**
@@ -405,6 +566,8 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 				foodUnits.put(id, name);
 			} while (c.moveToNext());
 		}
+		c.close();
+		db.close();
 		return foodUnits;
 	}
 
@@ -435,6 +598,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 				int mealId = c.getInt(c.getColumnIndex(KEY_MEAL_ID));
 				nutritionLog.add(new Log(id, dateAdded, dateServed, size,
 						isStd, foodId, mealId));
+				System.out.println(id + "::" + size + "=" + dateServed);
 			} while (c.moveToNext());
 		} else {
 		}
@@ -456,7 +620,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 				+ KEY_DAILY_LOG_DATE + " LIKE '" + date + "%'";
 		Cursor c = db.rawQuery(query, null);
 		for (int i = 0; i < 32; i++) {
-			nutritionLog.add(new DailyLog(i + 1, -1, 0));
+			nutritionLog.add(new DailyLog(i + 1, -1, 0, -1));
 		}
 		if (c.getCount() != 0) {
 			c.moveToFirst();
@@ -466,38 +630,14 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 				int energy = c.getInt(c.getColumnIndex(KEY_DAILY_ENERGY));
 				int protein = c.getInt(c.getColumnIndex(KEY_DAILY_PROTEIN));
 				int day = Integer.parseInt(logDate.split("/")[2]);
-				nutritionLog.set(day, new DailyLog(day, energy, protein));
+				int status = c.getInt(c.getColumnIndex(KEY_DAILY_LOG_STATUS));
+				nutritionLog.set(day,
+						new DailyLog(day, energy, protein, status));
 			} while (c.moveToNext());
-		}
-		return nutritionLog;
-	}
-
-	/**
-	 * 
-	 * @param date
-	 *            : string of log date
-	 * @return an array list of logs with the given date
-	 */
-	public DailyLog getDayLog(String date) {
-		SQLiteDatabase db = this.getWritableDatabase();
-		String query = "SELECT * FROM " + TABLE_DAILY_LOG + " WHERE "
-				+ KEY_DAILY_LOG_DATE + " = '" + date + "'";
-		Cursor c = db.rawQuery(query, null);
-		DailyLog d;
-		if (c.getCount() != 0) {
-			c.moveToFirst();
-			String logDate = c.getString(c.getColumnIndex(KEY_DAILY_LOG_DATE));
-			int energy = c.getInt(c.getColumnIndex(KEY_DAILY_ENERGY));
-			int protein = c.getInt(c.getColumnIndex(KEY_DAILY_PROTEIN));
-			int day = Integer.parseInt(logDate.split("/")[2]);
-			d = new DailyLog(day, energy, protein);
-		} else {
-			System.out.println(date);
-			d = new DailyLog(Integer.parseInt(date.split("/")[2]), -1, -1);
 		}
 		c.close();
 		db.close();
-		return d;
+		return nutritionLog;
 	}
 
 	/**
@@ -519,14 +659,124 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 			int unitId = c.getInt(c.getColumnIndex(KEY_SEC_UNIT_ID));
 			int unitCalorie = c.getInt(c.getColumnIndex(KEY_UNIT_ENERGY));
 			int categoryId = c.getInt(c.getColumnIndex(KEY_CATEGORY_ID));
+			c.close();
+			db.close();
 			return new Food(id, name, calorie, unitCalorie, unitId, categoryId);
 		} else {
+			db.close();
 			return null;
 		}
 	}
 
 	public int getProperEnergy() {
 		// TODO Auto-generated method stub
-		return 80;
+		Person user = getUser();
+		float weight = user.getWeight();
+		float goal = user.getDesiredWeight();
+		float dif = goal - weight;
+		int days = 0;
+		JDF now = new JDF();
+		String deadline = user.getDeadline();
+
+		System.out.println("**************************");
+		System.out.println(now.getIranianDate());
+		if (deadline != null) {
+			System.out.println(deadline);
+			while (now.getIranianDate() != deadline) {
+				days++;
+				now.nextDay();
+			}
+			int calorieToLose = (int) dif * 7000;
+			return user.getBMR() - (calorieToLose / days);
+		} else {
+			return user.getBMR();
+		}
+	}
+
+	// ////////// DAILY LOG FUNCTIONS //////////////////////////////
+	// /////////////////////////////////////////////////////////////
+	/**
+	 * 
+	 * @param date
+	 *            : string of log date
+	 * @return an array list of logs with the given date
+	 */
+	public DailyLog getDayLog(String date) {
+		System.out.println("========= getDayLog invoked");
+		SQLiteDatabase db = this.getWritableDatabase();
+		String query = "SELECT * FROM " + TABLE_DAILY_LOG + " WHERE "
+				+ KEY_DAILY_LOG_DATE + " = '" + date + "'";
+		System.out.println(query);
+		Cursor c = db.rawQuery(query, null);
+		DailyLog d;
+		if (c.getCount() != 0) {
+			c.moveToFirst();
+			int energy = 0;
+			int protein = 0;
+			String logDate = c.getString(c.getColumnIndex(KEY_DAILY_LOG_DATE));
+			int day = Integer.parseInt(logDate.split("/")[2]);
+			do {
+				energy += c.getInt(c.getColumnIndex(KEY_DAILY_ENERGY));
+				protein += c.getInt(c.getColumnIndex(KEY_DAILY_PROTEIN));
+			} while (c.moveToNext());
+			d = new DailyLog(day, energy, protein, -1);
+		} else {
+			d = new DailyLog(Integer.parseInt(date.split("/")[2]), -1, -1, -1);
+		}
+		System.out.println(d.getDay() + "::" + d.getEnergy() + "--"
+				+ d.getProtein());
+		c.close();
+		db.close();
+		System.out.println("========= end of getDayLog");
+		return d;
+	}
+
+	// ////////// APP SETTING FUNCTIONS ////////////////////////////
+	// /////////////////////////////////////////////////////////////
+
+	/**
+	 * this function reads the proper column in setting table to see if the user
+	 * wants to see his or her statistics
+	 * 
+	 * @return 1 if user want to see his or her statistics and otherwise 0
+	 */
+	public boolean getShowStat() {
+		String query = "SELECT * FROM " + TABLE_APP_SETTING;
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor c = db.rawQuery(query, null);
+		if (c.getCount() != 0) {
+			c.moveToFirst();
+			int show = c.getInt(c.getColumnIndex(KEY_SHOW_STAT));
+			c.close();
+			db.close();
+			if (show == 1) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			c.close();
+			db.close();
+			return true;
+		}
+
+	}
+
+	/**
+	 * this function sets the user preference to see the stat or not
+	 * 
+	 * @param show
+	 *            : if it's true user wants to see the stat page again and
+	 *            otherwise false
+	 */
+	public void setShowStat(boolean show) {
+		int temp = 0;
+		if (show)
+			temp = 1;
+		String query = "UPDATE " + TABLE_APP_SETTING + " SET " + KEY_SHOW_STAT
+				+ " = " + temp + " ; ";
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL(query);
+		db.close();
 	}
 }

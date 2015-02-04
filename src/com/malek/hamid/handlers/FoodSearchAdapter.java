@@ -68,7 +68,6 @@ public class FoodSearchAdapter extends BaseAdapter {
 				addFoodFragment dialog = new addFoodFragment();
 				dialog.setStyle(DialogFragment.STYLE_NO_TITLE,
 						R.style.DialogeStyle);
-				System.out.println("food search adapter  "+date);
 				dialog.setDate(date);
 				dialog.setFood((Food) v.getTag());
 				dialog.show(activity.getSupportFragmentManager(), "Hello");

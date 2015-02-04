@@ -16,7 +16,10 @@ import com.malek.hamid.DatabaseHandler;
 import com.malek.hamid.R;
 
 public class FoodListAdapter extends BaseExpandableListAdapter {
-
+	
+	/**
+	 * groups of food by categories
+	 */
 	private final SparseArray<Group> groups;
 	public LayoutInflater inflater;
 	public Activity activity;

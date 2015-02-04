@@ -2,62 +2,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
-    tools:context="com.malek.hamid.StatScreenActivity" >
+    android:background="@null"
+    android:orientation="vertical"
+    tools:context="com.malek.hamid.StatScreenFragment" >
 
-    <!--
-         The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc.
-    -->
-
-    <TextView
-        android:id="@+id/fullscreen_content"
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:textColor="#33b5e5"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:contentDescription="Nothing" />
 
-    <!--
-         This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows.
-    -->
-
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true" >
+        android:layout_height="match_parent" >
 
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="?metaButtonBarStyle"
+        <TextView
+            android:id="@+id/user_stat"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:keepScreenOn="true"
+            android:textColor="#33b5e5"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/dont_show_button"
+            style="?metaButtonBarButtonStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_overlay"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            tools:ignore="UselessParent" >
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/dont_show_button"
+            android:textColor="#CCC" />
 
-            <Button
-                android:id="@+id/dont_show_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dont_show_button" />
-            <Button
-                android:id="@+id/skip_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/skip_button" />
-        </LinearLayout>
-
-    </FrameLayout>
+        <ImageButton
+            android:id="@+id/close_stat_button"
+            style="?metaButtonBarButtonStyle"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:scaleType="fitXY"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/close_bw"
+            android:textColor="#CCC" />
+    </RelativeLayout>
 
 </FrameLayout>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -24,16 +25,22 @@ public class LoginActivity extends Activity {
 	public static final String J_YEAR = "jYear";
 	private String[] monthNames = { "فروردین", "اردیبهشت", "خرداد", "تیر",
 			"مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند" };
+	private String[] dec = { ".0", ".1", ".2", ".3", ".4", ".5", ".6", ".7",
+			".8", ".9" };
 	private NumberPicker npDay;
 	private NumberPicker npMonth;
 	private NumberPicker npYear;
 
 	// -- Form Elements --------------------------
 	private NumberPicker weight;
+	private NumberPicker weightDec;
 	private NumberPicker height;
+	ImageButton manButton;
+	ImageButton womanButton;
 	private Button submit;
 	private ScrollView scroll;
 	private DatabaseHandler db;
+	int sex = -1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +55,7 @@ public class LoginActivity extends Activity {
 		if (db.getUserFulfilled()) {
 			System.out.println("user is fulfilled");
 			Intent intent = new Intent(getBaseContext(),
-					StatScreenActivity.class);
+					MainActivity.class);
 			Person user = db.getUser();
 			intent.putExtra("user", user);
 			startActivity(intent);
@@ -95,90 +102,88 @@ public class LoginActivity extends Activity {
 		npYear.setValue(1370);
 		npMonth.setValue(10);
 		npDay.setValue(22);
-		
+
 		npYear.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 		npMonth.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 		npDay.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-		
+
 		// -- Calendar --------------------------- END
 
 		// -- Form Elements Initialization ---------------
-//		scroll = (ScrollView) findViewById(R.id.login_scroll);
+		// scroll = (ScrollView) findViewById(R.id.login_scroll);
 		weight = (NumberPicker) findViewById(R.id.weight);
+		weightDec = (NumberPicker) findViewById(R.id.weightDec);
 		height = (NumberPicker) findViewById(R.id.height);
-		
-		//////
+
+		// --- Number Picker initializing ------------------
 		height.setMaxValue(250);
 		height.setMinValue(120);
 		height.setValue(160);
 		height.setWrapSelectorWheel(false);
 		height.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-		
+
 		weight.setMaxValue(160);
 		weight.setMinValue(40);
 		weight.setValue(70);
 		weight.setWrapSelectorWheel(false);
 		weight.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-		////////
-		
-		
+
+		weightDec.setMaxValue(9);
+		weightDec.setMinValue(0);
+		weightDec.setDisplayedValues(dec);
+
+		// ----- Sex Buttons actions ----------------
+		manButton = (ImageButton) findViewById(R.id.man_image);
+		womanButton = (ImageButton) findViewById(R.id.woman_image);
+
+		manButton.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				manButton.setImageResource(R.drawable.man_selected);
+				womanButton.setImageResource(R.drawable.woman);
+				sex = 0;
+			}
+		});
+
+		womanButton.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				manButton.setImageResource(R.drawable.man);
+				womanButton.setImageResource(R.drawable.woman_selected);
+				sex = 1;
+			}
+		});
+
+		// ---- submit button action ----------------
 		submit = (Button) findViewById(R.id.btnsave);
 
 		submit.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 
-				// checking weight field correctness
-				int userWeight = 0;
-//				if (weight.getText().toString().matches("")) {
-//					Toast.makeText(getApplicationContext(), "Weight is empty",
-//							Toast.LENGTH_LONG).show();
-//					weight.setBackgroundColor(Color.rgb(240, 100, 100));
-//					scroll.scrollTo(0, weight.getTop());
-//					return;
-//				} else
-//					userWeight = Integer.parseInt(weight.getText().toString());
+				// checking if user did not choose a sex
+				if (sex == -1) {
+					Toast.makeText(getApplicationContext(),
+							R.string.login_message, Toast.LENGTH_LONG).show();
+				} else {
 
-				// checking height field correctness
-				int userHeight = 0;
-//				if (height.getText().toString().matches("")) {
-//					Toast.makeText(getApplicationContext(), "Height is empty",
-//							Toast.LENGTH_LONG).show();
-//					height.setBackgroundColor(Color.rgb(240, 100, 100));
-//					scroll.scrollTo(0, height.getTop());
-//					return;
-//				} else
-//					userHeight = Integer.parseInt(height.getText().toString());
+					float userWeight = weight.getValue() + weightDec.getValue()
+							/ 10;
+					int userHeight = height.getValue();
+					String userBD = createBDString(npYear, npMonth, npDay);
 
-				// checking sex radio correctness
-				int userSex = 0;
-//				if (!(sex.getCheckedRadioButtonId() == -1)) {
-//					int selectedId = sex.getCheckedRadioButtonId();
-//					RadioButton radioSex = (RadioButton) findViewById(selectedId);
-//					if (radioSex.getText() == getResources().getString(
-//							R.string.female))
-//						userSex = 1;
-//					else
-//						userSex = 0;
-//				} else {
-//					Toast.makeText(getApplicationContext(),
-//							"You must select a sex", Toast.LENGTH_LONG).show();
-//					sex.setBackgroundColor(Color.rgb(240, 100, 100));
-//					scroll.scrollTo(0, sex.getTop());
-//					return;
-//				}
-				String userBD = createBDString(npYear, npMonth, npDay);
-				// TODO
-				
-				db.close();
-				// directing user to activity level activity
-				Intent intent = new Intent(getBaseContext(),
-						ActLevelActivity.class);
+					// directing user to activity level activity
+					Intent intent = new Intent(getBaseContext(),
+							ActLevelActivity.class);
 
-				Person user = new Person(userHeight, userWeight, userBD,
-						userSex == 1 ? true : false);
-				intent.putExtra("user", user);
-				startActivity(intent);
+					Person user = new Person(userWeight, userHeight, userBD,
+							sex);
+					intent.putExtra("user", user);
+					startActivity(intent);
+				}
+
 			}
 
 			/**
@@ -202,4 +207,5 @@ public class LoginActivity extends Activity {
 			}
 		});
 	}
+
 }
