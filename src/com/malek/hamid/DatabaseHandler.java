@@ -678,16 +678,15 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 		JDF now = new JDF();
 		String deadline = user.getDeadline();
 
-		System.out.println("**************************");
-		System.out.println(now.getIranianDate());
 		if (deadline != null) {
-			System.out.println(deadline);
-			while (now.getIranianDate() != deadline) {
+			while (!now.getIranianDate().matches(deadline)) {
 				days++;
 				now.nextDay();
+				if (days > 100)
+					break;
 			}
 			int calorieToLose = (int) dif * 7000;
-			return user.getBMR() - (calorieToLose / days);
+			return user.getBMR() + (calorieToLose / days);
 		} else {
 			return user.getBMR();
 		}
@@ -775,6 +774,24 @@ public class DatabaseHandler extends SQLiteAssetHelper {
 			temp = 1;
 		String query = "UPDATE " + TABLE_APP_SETTING + " SET " + KEY_SHOW_STAT
 				+ " = " + temp + " ; ";
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL(query);
+		db.close();
+	}
+
+	/**
+	 * this function insert a new food into food tables
+	 * @param food
+	 *            : the food that should be added to foods table
+	 */
+	public void addNewFood(Food food) {
+		String query = "INSERT INTO " + TABLE_FOOD + "(" + KEY_FOOD_NAME + ","
+				+ KEY_CATEGORY_ID + "," + KEY_STD_ENERGY + ","
+				+ KEY_SEC_UNIT_ID + "," + KEY_UNIT_ENERGY + ") values (" + "'"
+				+ food.getName() + "'," + "'" + food.getCategoryId() + "',"
+				+ "'" + food.getCalorieSI() + "'," + "'" + food.getUnit()
+				+ "'," + "'" + food.getCalorieUnit() + "');";
+
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.execSQL(query);
 		db.close();

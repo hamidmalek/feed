@@ -22,12 +22,14 @@ public class Food {
 	 * @param unitId
 	 *            : non SI unit of the food such as glass, spoon, ... .
 	 *            enumeration is provided in this class
-	 * 
-	 * @param category
+	 * @param calorieUnit
+	 *            : calorie of the unit
+	 * @param categoryId
+	 *            : category id of food
 	 */
-	public Food(int id ,String name, double calorieSI, int calorieUnit, int unitId,
-			int categoryId) {
-		this.id = id ;
+	public Food(int id, String name, double calorieSI, int calorieUnit,
+			int unitId, int categoryId) {
+		this.id = id;
 		this.name = name;
 		this.stdEnergy = calorieSI;
 		this.unitEnergy = calorieUnit;
@@ -45,7 +47,7 @@ public class Food {
 	 *            : category of food which is from an enumeration provided in
 	 *            this class
 	 */
-	public Food(int id ,String name, int calorieSI, int categoryId) {
+	public Food(int id, String name, int calorieSI, int categoryId) {
 		this.id = id;
 		this.name = name;
 		this.stdEnergy = calorieSI;
@@ -78,7 +80,6 @@ public class Food {
 		this.unitEnergy = calorieUnit;
 	}
 
-
 	public String getName() {
 		return name;
 	}
@@ -86,7 +87,6 @@ public class Food {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public int getId() {
 		return id;
@@ -104,7 +104,6 @@ public class Food {
 		this.categoryId = categoryId;
 	}
 
-
 	/**
 	 * enumeration of the non SI units for foods
 	 * 
@@ -114,6 +113,7 @@ public class Food {
 	public enum Unit {
 		none, spoon, glass;
 	}
+
 	@Override
 	public String toString() {
 		return getName();

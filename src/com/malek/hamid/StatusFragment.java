@@ -3,7 +3,6 @@ package com.malek.hamid;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -19,11 +18,13 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.pascalwelsch.holocircularprogressbar.HoloCircularProgressBar;
+
 public class StatusFragment extends Fragment {
 	private String name;
-	private ProgressBar progressBar;
-	private int progress;
-	private int waitMillis = 2000;
+	private HoloCircularProgressBar progressBar;
+	private float progress;
+	private int waitMillis = 4000;
 	private TextView todayCalorie;
 	private TextView dailyCalorie;
 	private Person user;
@@ -42,7 +43,8 @@ public class StatusFragment extends Fragment {
 		db = new DatabaseHandler(getActivity().getApplicationContext());
 		todayCalorie = (TextView) rootView.findViewById(R.id.today_calorie);
 		dailyCalorie = (TextView) rootView.findViewById(R.id.daily_calorie);
-		progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+		progressBar = (HoloCircularProgressBar) rootView
+				.findViewById(R.id.progressBar);
 		goalButton = (Button) rootView.findViewById(R.id.set_goal_button);
 		addFoodButton = (ImageButton) rootView
 				.findViewById(R.id.addFood_inStatus);
@@ -61,22 +63,16 @@ public class StatusFragment extends Fragment {
 				startActivity(intent);
 			}
 		});
-		progressBar.setMax(user.getBMR() + 500);
 		DailyLog todayLog = db.getDayLog(date.getIranianDate());
 		db.close();
-		progress = todayLog.getEnergy();
 		name = getResources().getString(R.string.fragment_status);
-		ObjectAnimator progressAnimation = ObjectAnimator.ofInt(progressBar,
-				"progress", 0, progress);
 		if (todayLog.getEnergy() == -1) {
 			todayCalorie.setText("-");
 			todayCalorie.setGravity(Gravity.CENTER);
 		} else
 			todayCalorie.setText("" + todayLog.getEnergy());
 
-		dailyCalorie.setText(user.getBMR() + "");
-		progressAnimation.setDuration(waitMillis);
-		progressAnimation.setInterpolator(new DecelerateInterpolator());
+		dailyCalorie.setText(db.getProperEnergy() + "");
 		addFoodButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -88,9 +84,15 @@ public class StatusFragment extends Fragment {
 
 			}
 		});
-		AnimatorSet animSet = new AnimatorSet();
-		animSet.playTogether(progressAnimation);
-		animSet.start();
+		// //////// Progress Animation ///////////////////////////
+		progressBar.setMarkerProgress((float) user.getBMR()
+				/ (user.getBMR() + 500));
+		progress = (float) todayLog.getEnergy() / (user.getBMR() + 500);
+		ObjectAnimator progressAnimation = ObjectAnimator.ofFloat(progressBar,
+				"progress", 0, progress);
+		progressAnimation.setDuration(waitMillis);
+		progressAnimation.setInterpolator(new DecelerateInterpolator());
+		progressAnimation.start();
 		return rootView;
 	}
 
@@ -144,10 +146,10 @@ public class StatusFragment extends Fragment {
 		db = new DatabaseHandler(getActivity().getApplicationContext());
 		DailyLog todayLog = db.getDayLog(date.getIranianDate());
 		db.close();
-		int prevProgress = progress ;
+		float prevProgress = progress;
 		progress = todayLog.getEnergy();
-//		name = getResources().getString(R.string.fragment_status);
-		ObjectAnimator progressAnimation = ObjectAnimator.ofInt(progressBar,
+		name = getResources().getString(R.string.fragment_status);
+		ObjectAnimator progressAnimation = ObjectAnimator.ofFloat(progressBar,
 				"progress", prevProgress, progress);
 		if (todayLog.getEnergy() == -1) {
 			todayCalorie.setText("-");
@@ -158,11 +160,8 @@ public class StatusFragment extends Fragment {
 		dailyCalorie.setText(user.getBMR() + "");
 		progressAnimation.setDuration(waitMillis);
 		progressAnimation.setInterpolator(new DecelerateInterpolator());
-		AnimatorSet animSet = new AnimatorSet();
-		animSet.playTogether(progressAnimation);
-		animSet.start();
+		progressAnimation.start();
 
-		
 	}
 
 }

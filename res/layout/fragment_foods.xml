@@ -31,6 +31,17 @@
             android:layout_below="@+id/search_bar_food" >
         </ExpandableListView>
 
+        <Button
+            android:id="@+id/add_new_food"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/food_list"
+            android:background="#F99"
+            android:orientation="horizontal"
+            android:text="@string/add_your_food"
+            android:textColor="#FFF" >
+        </Button>
+
         <ListView
             android:id="@+id/search_result_food"
             android:layout_width="fill_parent"

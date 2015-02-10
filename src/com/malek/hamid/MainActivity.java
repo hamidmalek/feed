@@ -1,6 +1,7 @@
 package com.malek.hamid;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -80,16 +81,10 @@ public class MainActivity extends FragmentActivity implements addFoodFragment.On
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
-		// switch (item.getItemId()) {
-		//
-		// case R.id.action_contact:
-		// addFoodFragment dialog = new addFoodFragment();
-		// dialog.show(getSupportFragmentManager(), "QuickContactFragment");
-		// return true;
-		//
-		// }
-		//
+		
+		Intent intent = new Intent(getApplicationContext(),SettingActivity.class);
+		startActivity(intent);
+		
 		return super.onOptionsItemSelected(item);
 	}
 

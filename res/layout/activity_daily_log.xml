@@ -62,13 +62,12 @@
             android:background="@null"
             android:scaleType="fitXY"
             android:src="@drawable/ic_action_assignment_turned_in" />
-
     </RelativeLayout>
 
-    <ListView
+    <ExpandableListView
         android:id="@+id/daily_log_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-    </ListView>
+    </ExpandableListView>
 
 </LinearLayout>

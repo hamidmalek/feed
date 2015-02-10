@@ -30,29 +30,30 @@
     <string name="activity_level">میزان فعالیت روزانه خود را مشخص کنید.</string>
     <string name="today_advice"><u>توصیه های امروز</u></string>
     <string name="activity_daily_log">گزارش روزانه</string>
-	
+    <string name="setting">تنظیمات</string>
+    <string name="add_your_food">اضافه کردن غذای خودتان</string>
     <string name="centimeter">سانتی‌متر</string>
     <string name="kilogram">کیلوگرم</string>
     <string name="you_want">شما می‌خواهید</string>
     <string name="text_2">به میزان</string>
     <string name="text_3">طی مدت </string>
     <string name="text_4">شوید. </string>
-    
     <string name="login_message">لطفا اطلاعات خود را به طور کامل وارد نمایید.</string>
-    
     <string name="lady">خانم</string>
     <string name="gentle">آقا</string>
-    
     <string name="no_goal_message">شما هدفی برای خود تعیین نکرده اید. \n حفظ وزن برای شما به عنوان هدف تعیین شده است.</string>
-    
     <string name="set_goal">تعیین هدف</string>
+    <string name="food_name">نام غذا</string>
+    <string name="food_category">دسته بندی</string>
+    <string name="food_standard_calorie">انرژی در هر ۱۰۰ گرم</string>
+    <string name="food_2nd_unit">واحد فرعی</string>
+    <string name="food_2nd_unit_calorie">انرژی واحد فرعی</string>
+
     <string-array name="meals_array">
-        <item>میان وعده اول</item>
         <item>صبحانه</item>
         <item>ناهار</item>
-        <item>میان وعده دوم</item>
         <item>شام</item>
-        <item>میان وعده سوم</item>
+        <item>میان وعده</item>
     </string-array>
     <string-array name="main_tabs_array">
         <item>امروز</item>

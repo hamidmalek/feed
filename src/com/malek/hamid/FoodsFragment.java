@@ -3,12 +3,15 @@ package com.malek.hamid;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -29,6 +32,7 @@ public class FoodsFragment extends DialogFragment {
 	public static HashMap<Integer, String> foodUnits = new HashMap<Integer, String>();
 	DatabaseHandler db;
 	private String date;
+	Button addNewFood;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,7 +116,17 @@ public class FoodsFragment extends DialogFragment {
 				return true;
 			}
 		});
+		// ------------- Add Food Section ------------------------------
+		addNewFood = (Button) rootView.findViewById(R.id.add_new_food);
+		addNewFood.setOnClickListener(new OnClickListener() {
 
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity()
+						.getApplicationContext(), AddNewFoodActivity.class);
+				startActivity(intent);
+
+			}
+		});
 		return rootView;
 	}
 

@@ -127,6 +127,7 @@ public class addFoodFragment extends DialogFragment implements
 		if (food.getUnit() == 0) {
 			radioUnit.setVisibility(View.GONE);
 			unitNoRadio.setVisibility(View.VISIBLE);
+			radioStdUnit.setChecked(true);
 			flag = false;
 		} else {
 			radioSecUnit.setText(FoodsFragment.foodUnits.get(food.getUnit()));
@@ -152,7 +153,6 @@ public class addFoodFragment extends DialogFragment implements
 					Toast.makeText(getActivity(), "please select a food unit",
 							2000).show();
 				} else {
-					System.out.println("addFoodFragment date  " + date);
 					db.insertFoodinUserLog(food.getId(),
 							Integer.parseInt(size), jdf.getIranianDate(), date,
 							radioStdUnit.isChecked(),

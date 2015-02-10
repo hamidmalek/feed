@@ -1,22 +1,19 @@
 package com.malek.hamid;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,33 +28,81 @@ import com.malek.hamid.handlers.DailyFoodsAdapter;
  */
 public class DailyLogActivity extends FragmentActivity implements
 		addFoodFragment.OnDBChangedListener {
-	private ProgressBar progressBar;
+	/**
+	 * the progress bar which is shown to user in every daily log activity
+	 */
+	private ProgressBar progressBar; // TODO
+	/**
+	 * the string of date, used for add food fragment and other things
+	 */
 	private String date;
+	/**
+	 * progress of the day log
+	 */
 	private int progress;
+	/**
+	 * duration of progress bar animation
+	 */
 	private int waitMillis = 3000;
+	/**
+	 * text view of the current day calorie
+	 */
 	private TextView dailyCalorie;
-	private ListView lv;
+	/**
+	 * list of day foods, it should be expandable to distinguish between meals
+	 * of the day
+	 */
+	private ExpandableListView dayFoodsELV;
+	/**
+	 * Button of add food, it shows a dialog for user to add the served food
+	 */
 	private ImageButton addFood;
+	/**
+	 * the object of user
+	 */
 	private Person user;
+	/**
+	 * the object of database
+	 */
 	private DatabaseHandler db;
+	/**
+	 * the adapter for day food list
+	 */
 	DailyFoodsAdapter dfa;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		/*
+		 * setting content view
+		 */
 		setContentView(R.layout.activity_daily_log);
 		System.out.println(getIntent().getCharSequenceExtra("date"));
+		/*
+		 * reading date from intent
+		 */
 		date = getIntent().getCharSequenceExtra("date").toString();
-		System.out.println("(((((((((((((((((((((((((("+date+"))");
+		System.out.println("((((((((((((((((((((((((((" + date + "))");
+		/*
+		 * initializing data base object and reading current day log and day
+		 * foods and also user from it
+		 */
 		db = new DatabaseHandler(getApplicationContext());
 		DailyLog dailyLog = db.getDayLog(date);
 		ArrayList<Log> dayFoods = db.getUserNutLog(date);
+		user = db.getUser();
+		/*
+		 * initializing form elements
+		 */
 		dailyCalorie = (TextView) findViewById(R.id.daily_calorie);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
-		lv = (ListView) findViewById(R.id.daily_log_list);
+		dayFoodsELV = (ExpandableListView) findViewById(R.id.daily_log_list);
 		addFood = (ImageButton) findViewById(R.id.add_food_in_log);
-		user = db.getUser();
 
+		/*
+		 * setting on click listener for add food button, it shows a dialog
+		 * fragment for user to add the food
+		 */
 		addFood.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				FoodsFragment dialog = new FoodsFragment();
@@ -67,9 +112,10 @@ public class DailyLogActivity extends FragmentActivity implements
 				dialog.show(getSupportFragmentManager(), "Hello");
 			}
 		});
-
+		/*
+		 * the progress bar initializing and animation
+		 */
 		progressBar.setMax(user.getBMR() + 500);
-		
 		progress = dailyLog.getEnergy();
 		ObjectAnimator progressAnimation = ObjectAnimator.ofInt(progressBar,
 				"progress", 0, progress);
@@ -78,14 +124,24 @@ public class DailyLogActivity extends FragmentActivity implements
 			dailyCalorie.setText(dailyLog.getEnergy() + "");
 		else
 			dailyCalorie.setText("-");
-		dfa = new DailyFoodsAdapter(this, dayFoods);
-		lv.setAdapter(dfa);
+
 		progressAnimation.setDuration(waitMillis);
 		progressAnimation.setInterpolator(new DecelerateInterpolator());
 
 		AnimatorSet animSet = new AnimatorSet();
 		animSet.playTogether(progressAnimation);
 		animSet.start();
+		/*
+		 * food list setting
+		 */
+		dfa = new DailyFoodsAdapter(this, dayFoods,getResources()
+				.getStringArray(R.array.meals_array));
+		dayFoodsELV.setAdapter(dfa);
+		for (int i = 0; i < dfa.getGroupCount(); i++) {
+			dayFoodsELV.expandGroup(i);
+			System.out.println("count:"+dayFoodsELV.getCount());
+			System.out.println("i is:"+i);
+		}
 	}
 
 	public void setProgressBar(int progress) {
@@ -100,6 +156,9 @@ public class DailyLogActivity extends FragmentActivity implements
 		this.date = date;
 	}
 
+	/**
+	 * this function is used as a callback for changing the progress bar view
+	 */
 	public void onDBChanged() {
 		// TODO Auto-generated method stub
 		db = new DatabaseHandler(getApplicationContext());

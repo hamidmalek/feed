@@ -1,44 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="35dp"
-    android:background="@android:color/white"
-    android:orientation="horizontal"
-    android:padding="5dip"
-    android:weightSum="5" >
+    android:layout_height="match_parent" >
 
-    <!-- Unit of Food -->
+    <LinearLayout
+        android:id="@+id/daily_log_row_view"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:padding="5dip"
+        android:weightSum="6" >
 
-    <TextView
-        android:id="@+id/food_unit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dip"
-        android:layout_weight="1"
-        android:text="@string/std_unit"
-        android:gravity="center"
-        android:textColor="#343434" />
+        <!-- Unit of Food -->
 
-    <!-- Amount of the food -->
+        <TextView
+            android:id="@+id/food_unit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dip"
+            android:layout_weight="2"
+            android:gravity="right"
+            android:text="@string/std_unit"
+            android:textColor="#343434" />
 
-    <TextView
-        android:id="@+id/food_size"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dip"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textColor="#343434" />
+        <!-- Amount of the food -->
 
-    <!-- Name of the Food -->
+        <TextView
+            android:id="@+id/food_size"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dip"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#343434" />
 
-    <TextView
-        android:id="@+id/food_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:paddingRight="10dip"
-        android:textColor="#040404"
-        android:textStyle="bold" />
+        <!-- Name of the Food -->
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/food_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:paddingRight="10dip"
+            android:textColor="#040404"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

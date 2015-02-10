@@ -7,7 +7,7 @@
     android:gravity="right"
     android:paddingLeft="32dp"
     android:paddingRight="10dp"
-    android:background="#626"
+    android:background="#225"
     android:layout_marginTop="50dp"
     android:text="Test"
     android:textColor="@android:color/white"
